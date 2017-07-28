@@ -60,20 +60,20 @@
 			// мокапы 
 			$pdf->addImagesOnPage(array('assets/img/mop.png', 'assets/img/plant.png', 'assets/img/phone.png'), array(
 				"1" => array(
-						"w" => 360,
-						"h" => 270,
-						"top" => 440,
+						"w" => 365,
+						"h" => 290,
+						"top" => 430,
 						"left" => 162	
 					),
 				"2" => array(
 						"w" => 180,
-						"h" => 160,
+						"h" => 180,
 						"top" => 525,
 						"left" => 42
 					),
 				"3" => array(
 						"w" => 160,
-						"h" => 140,
+						"h" => 150,
 						"top" => 550,
 						"left" => 460
 					)
@@ -83,22 +83,22 @@
 			//картинки для мокапа 
 			$pdf->addImagesOnPage( array($dataSite[3]["comp"], $dataSite[3]["plant"], $dataSite[3]["phone"] ), array(
 				"1" => array(
-						"w" => 238,
-						"h" => 130,
-						"top" => 486,
-						"left" => 227
+						"w" => 251,
+						"h" => 140,
+						"top" => 480,
+						"left" => 219
 					),
 				"2" => array(
-						"w" => 89,
-						"h" => 120,
+						"w" => 99,
+						"h" => 140,
 						"top" => 547,
-						"left" => 88
+						"left" => 83
 					),
 				"3" => array(
-						"w" => 51,
-						"h" => 87,
+						"w" => 55,
+						"h" => 92,
 						"top" => 581,
-						"left" => 510
+						"left" => 513
 					)
 			));
 

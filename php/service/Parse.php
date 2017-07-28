@@ -25,8 +25,8 @@
 			//$this->objCollector->assemble($this->site, $this->data);
 			$this->imgList = array(
 					"comp" => $this->Img(1920, 1080),
-					"plant" => $this->Img(500, 900),
-					"phone" => $this->Img(200, 400)
+					"plant" => $this->Img(900, 1200),
+					"phone" => $this->Img(300, 500)
 				);
 			$this->workData->setImg($this->imgList);
 		}

@@ -25,5 +25,5 @@
 		$PrCy->setSite($site);
 		
 		$PrCy->build();
-		$collector->assemble($site, $data->getAllData() );
+		$collector->assemble($data->cutUrl($site), $data->getAllData() );
 	}	
