@@ -56,6 +56,7 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:24px;">ПОСТРОЕНИЕ ПРОДАЖ ЧЕРЕЗ ИНТЕРНЕТ</p>', 318, 352);
 			$pdf->setText('<p style="color:#d19e73; font-size:24px;">ФИРМЕННЫЙ СТИЛЬ</p>', 480, 352);
 			/* ----------------------------------2 стр------------------------------------- */
+
 			// мокапы 
 			$pdf->addImagesOnPage(array('assets/img/mop.png', 'assets/img/plant.png', 'assets/img/phone.png'), array(
 				"1" => array(
@@ -85,19 +86,19 @@
 						"w" => 238,
 						"h" => 130,
 						"top" => 486,
-						"left" => 217
+						"left" => 227
 					),
 				"2" => array(
 						"w" => 89,
 						"h" => 120,
 						"top" => 547,
-						"left" => 78
+						"left" => 88
 					),
 				"3" => array(
 						"w" => 51,
 						"h" => 87,
 						"top" => 581,
-						"left" => 500
+						"left" => 510
 					)
 			));
 
