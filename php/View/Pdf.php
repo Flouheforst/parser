@@ -156,7 +156,9 @@ $text
 EOD;
 			$this->writeHTMLCell( 0, 0, $left, $top, $html, 0, 1, 0, true, false, true);
 		}
-
+		public function safePDf($site){
+			$this->Output( $_SERVER['DOCUMENT_ROOT'] . 'parser/assets/pdf/' . $site . '.pdf', 'F');
+		}
 		// отдать pdf с именем $name
 		public function Byby($name){
 			$this->Output( $name . '.pdf', 'I');

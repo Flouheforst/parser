@@ -3,11 +3,12 @@
 	//ob_start();
 
 	class Collector {
-		public function assemble($site, $dataSite){
+		public function assemble($site, $dataSite, $dataWork){
 			$pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, '', false, false, false);
 			/* ----------------------------------1 стр------------------------------------- */
 
 			// 1 пути к файлам 2 размеры картинки страница по стандарту А4
+		
 			$pdf->AddPage(array(675, 1140),array(675, 1140));
 			ob_end_clean();
 			$pdf->addImagesOnPage(array('assets/img/1.jpg', 'assets/img/2.jpg', 'assets/img/3.jpg'), array(
@@ -79,7 +80,6 @@
 					)
 			));
 
-
 			//картинки для мокапа 
 			$pdf->addImagesOnPage( array($dataSite[3]["comp"], $dataSite[3]["plant"], $dataSite[3]["phone"] ), array(
 				"1" => array(
@@ -89,10 +89,10 @@
 						"left" => 219
 					),
 				"2" => array(
-						"w" => 99,
-						"h" => 140,
-						"top" => 547,
-						"left" => 83
+						"w" => 101,
+						"h" => 139,
+						"top" => 546,
+						"left" => 82
 					),
 				"3" => array(
 						"w" => 55,
@@ -101,7 +101,6 @@
 						"left" => 513
 					)
 			));
-
 
 
 
@@ -118,24 +117,27 @@
 
 			$pdf->SetFont($LatoThinItalic, '', 30, '', false);
 
-			$pdf->setText('<p style="color:#64594d; font-size:40px;">' . $dataSite[2]["ageDomain"] . '</p>', 450, 920);
-			$pdf->setText('<p style="color:#64594d; font-size:40px;">' . $dataSite[2]["endDomain"] . '</p>', 450, 945);
-			$pdf->setText('<p style="color:#64594d; font-size:40px;">' . $dataSite[2]["bondingDomain"] . '</p>', 450, 970);
-			$pdf->setText('<p style="color:#64594d; font-size:40px;">' . $dataSite[2]["bannedSite"] . '</p>', 450, 995);
-			$pdf->setText('<p style="color:#64594d; font-size:40px;">' . $dataSite[2]["sanctions"] . '</p>', 450, 1020);
-
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["ageDomain"] . '</p>', 450, 920);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["endDomain"] . '</p>', 450, 945);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["bondingDomain"] . '</p>', 450, 970);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["bannedSite"] . '</p>', 450, 995);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["sanctions"] . '</p>', 450, 1020);
 
 			//url, width height страницы, width height картинки, последние 2 настройка стр
 			// указывается текст + разметка 
 			// TODO table gen
 			// данные ширина nav, табл, шрифт 
-			/*
 			$pdf->AddPage(array(675, 1140),array(675, 1140));
 
 			$fontname = TCPDF_FONTS::addTTFfont(__DIR__ . '/../assets/font/MyriadPro/MyriadProRegular/MyriadProRegular.ttf', 'TrueTypeUnicode', '', 100);
 
 			$pdf->genTable($dataSite[1]["data"], 6, 2, $fontname);
-			*/
+
+
+
 			$pdf->Byby("Kompot");
+			$pdf->safePDf($site);
+			$dataWork->delImages($dataSite[3]);
+
 		}
 	} 

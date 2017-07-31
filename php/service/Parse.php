@@ -44,7 +44,6 @@
 			file_put_contents($file, $img);
 			$outFile = str_replace($_SERVER['DOCUMENT_ROOT'] . "parser/", "", $file);
 
-			print_r($outFile);
 			return $outFile;
 		}
 	}

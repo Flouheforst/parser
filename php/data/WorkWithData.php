@@ -75,8 +75,6 @@
 				);
 
 			//$res = $this->clearGarbage($query, $google, $yadnex);
-
-		
 		}	
 
 		public function prCyThPage($data = array()){
@@ -116,10 +114,6 @@
 			
 		}
 
-		private function checkRegExp($megaindexData){
-		
-		}
-
 		public function getAllData(){
 			return $this->allData;
 		}
@@ -127,4 +121,17 @@
 		public function setImg($img){
 			$this->allData[3] = $img;
 		}
+
+		public function delImages($img = []){
+			foreach ($img as $key => $value) {
+				unlink($_SERVER['DOCUMENT_ROOT'] . 'parser/' . $value);
+			}
+		}
+
+		/*
+		private function checkRegExp($megaindexData){
+		
+		}
+		*/
+
 	}
