@@ -39,7 +39,6 @@
 			$img = file_get_contents('http://mini.s-shot.ru/' . $width . 'x' . $height . '/JPEG/1024/Z100/?' . $this->site);
 			// название сайта + разрешение + случайное число uniqid();
 			$file = $_SERVER['DOCUMENT_ROOT'] . 'parser/assets/img/' .  $this->workData->cutUrl($this->site) . $width . $height . uniqid() . ".jpg";
-			print_r($file);
 
 			file_put_contents($file, $img);
 			$outFile = str_replace($_SERVER['DOCUMENT_ROOT'] . "parser/", "", $file);

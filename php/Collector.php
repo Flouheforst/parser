@@ -6,7 +6,6 @@
 		public function assemble($site, $dataSite, $dataWork){
 			$pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, '', false, false, false);
 			/* ----------------------------------1 стр------------------------------------- */
-
 			// 1 пути к файлам 2 размеры картинки страница по стандарту А4
 		
 			$pdf->AddPage(array(675, 1140),array(675, 1140));
@@ -56,6 +55,7 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:24px;">ЧАТ-БОТЫ</p>', 254, 352);
 			$pdf->setText('<p style="color:#d19e73; font-size:24px;">ПОСТРОЕНИЕ ПРОДАЖ ЧЕРЕЗ ИНТЕРНЕТ</p>', 318, 352);
 			$pdf->setText('<p style="color:#d19e73; font-size:24px;">ФИРМЕННЫЙ СТИЛЬ</p>', 480, 352);
+			
 			/* ----------------------------------2 стр------------------------------------- */
 
 			// мокапы 
@@ -105,15 +105,40 @@
 
 
 			/* ----------------------------------3 стр------------------------------------- */
+
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
 
 			$pdf->setText('<p style="color:#d19e73; font-size:64px;">1. АНАЛИЗ ДОМЕННОГО ИМЕНИ</p>', 110, 860);
 
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">1.1 ВОЗРАСТ ДОМЕННОГО ИМЕНИ</p>', 130, 920);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">1.2 ОКОНЧАНИЕ ДОМЕННОГО ИМЕНИ</p>', 130, 945);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">1.3 СКЛЕЙКА ДОМЕНА</p>', 130, 970);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">1.4 РЕЕСТР ЗАПРЕЩЕННЫХ САЙТОВ</p>', 130, 995);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">1.5 САНКЦИИ ПОИСКОВЫХ СИСТЕМ</p>', 130, 1020);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">1.1 ВОЗРАСТ ДОМЕННОГО ИМЕНИ</p>', 120, 920);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">1.2 ОКОНЧАНИЕ ДОМЕННОГО ИМЕНИ</p>', 120, 945);
+
+			$pdf->addImagesOnPage( array($dataSite[2]["bondingDomainIcon"], $dataSite[2]["bannedSiteIcon"], $dataSite[2]["agsIcon"] ), array(
+				"1" => array(
+						"w" => 8,
+						"h" => 8,
+						"top" => 973,
+						"left" => 112
+					),
+				"2" => array(
+						"w" => 8,
+						"h" => 8,
+						"top" => 998,
+						"left" => 112
+					),
+				"3" => array(
+						"w" => 8,
+						"h" => 8,
+						"top" => 1023,
+						"left" => 112
+					)
+			));
+
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">1.3 СКЛЕЙКА ДОМЕНА</p>', 120, 970);
+
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">1.4 РЕЕСТР ЗАПРЕЩЕННЫХ САЙТОВ</p>', 120, 995);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">1.5 САНКЦИИ ПОИСКОВЫХ СИСТЕМ</p>', 120, 1020);
+
 
 			$pdf->SetFont($LatoThinItalic, '', 30, '', false);
 
@@ -127,14 +152,147 @@
 			// указывается текст + разметка 
 			// TODO table gen
 			// данные ширина nav, табл, шрифт 
-			$pdf->AddPage(array(675, 1140),array(675, 1140));
+
 
 			$fontname = TCPDF_FONTS::addTTFfont(__DIR__ . '/../assets/font/MyriadPro/MyriadProRegular/MyriadProRegular.ttf', 'TrueTypeUnicode', '', 100);
 
-			$pdf->genTable($dataSite[1]["data"], 6, 2, $fontname);
+			//$pdf->genTable($dataSite[1]["data"], 6, 2, $fontname);
+
+			/* ----------------------------------4 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/4.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------5 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/5.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------6 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/6.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------7 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/7.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------8 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/8.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------9 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/9.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------10 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/10.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------11 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/11.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------12 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/12.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------13 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/13.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------14 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/14.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+
+			/* ----------------------------------15 стр------------------------------------- */
+			$pdf->AddPage(array(675, 380),array(675, 380));
+			$pdf->addImagesOnPage( array("assets/img/15.jpg"), array(
+				"1" => array(
+						"w" => 675,
+						"h" => 380,
+						"top" => 0,
+						"left" => 0
+					)
+			));
+			
 
 
-
+			/* ----------------------------------Конечная------------------------------------- */
 			$pdf->Byby("Kompot");
 			$pdf->safePDf($site);
 			$dataWork->delImages($dataSite[3]);

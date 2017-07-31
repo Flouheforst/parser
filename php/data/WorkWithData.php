@@ -1,5 +1,4 @@
 <?php 
-
 	class WorkWithData {
 		private $allData = array();
 
@@ -64,6 +63,7 @@
 				}
 			}
 
+
 			$res = array(
 						"query" => $query,
 						"google" => $google,
@@ -75,15 +75,26 @@
 				);
 
 			//$res = $this->clearGarbage($query, $google, $yadnex);
-		}	
+		}
 
-		public function prCyThPage($data = array()){
+			public function filterPrCyTable($table){
+				foreach($table as $key => $value){
+					$pq = pq($value);
+					$lang = $pq->find("td")->contents()->eq(22)->text();
+					$img = $pq->find(".text-img")->contents()->eq(22);
+
+				}
+			
+			}
+
+
+		public function prCyAllData($data = array()){
 			if (!empty($data)) {
 				foreach ($data as $key => $value) {
-					$data[$key] = trim( $data[$key] );
+					$data[$key] = str_replace(chr(9),"", trim( str_replace("\n", "", $data[$key] ) ) ) ;
 				}
-
 				$data = $this->checkPrCy($data);
+
 				$this->allData[2] = $data;
 			} else {
 				return false;
@@ -92,11 +103,20 @@
 		}
 
 		public function checkPrCy($data){
-			if ( ($data["bondingDomain"] === "Яндекс не считает домен склеенным.") || ($data["bannedSite"] === "Домен не найден в реестре.") || ($data["ags"] === "Фильтр не обнаружен.") ) {
+			if ( ($data["bondingDomain"] === "Яндекс не считает домен склеенным.") && ($data["bannedSite"] === "Домен не найден в реестре.") && ($data["ags"] === "Фильтр не обнаружен.") ) {
+
+				$data["bondingDomain"] = "Нет";
+				$data["bannedSite"] = "Нет";
+				$data["ags"] = "Нет";
 
 				$data['sanctions'] = "Нет";
-			} 
-			return $data;
+
+				$data = $this->analizeIconDomen($data);
+			
+				return $data;
+			} else {
+
+			}
 		}
 
 		private function clearGarbage($query, $google, $yandex){
@@ -122,10 +142,20 @@
 			$this->allData[3] = $img;
 		}
 
-		public function delImages($img = []){
+		public function delImages($img = array()){
 			foreach ($img as $key => $value) {
 				unlink($_SERVER['DOCUMENT_ROOT'] . 'parser/' . $value);
 			}
+		}
+
+		protected function analizeIconDomen($data = array() ){
+			if ( ($data["bondingDomain"] === "Нет") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Нет") ) {
+				$data["bondingDomainIcon"] = "assets/img/nope.png";
+				$data["bannedSiteIcon"] = "assets/img/nope.png";
+				$data["agsIcon"] = "assets/img/nope.png";
+			}
+
+			return $data;
 		}
 
 		/*

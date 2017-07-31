@@ -7,7 +7,10 @@
 
 	define("EMAILM", "shadool110790@mail.ru");
 	define("PASSWORDM", "13324661we");
-	
+
+	define("EMAIL_PR_CY", "shadool110790@mail.ru");
+	define("PASSWORD_PR_CY", "13324661weE");
+
 	if( isset($_POST["site"]) ){ 
 		$site = $_POST["site"];
 
@@ -20,7 +23,9 @@
 		$megaInd = FactoryService::createMegaIndex($site, EMAILM, PASSWORDM, $data);
 		
 		$PrCy = FactoryService::createPrCy($site, $data);
-		$PrCy->parseThPage();
+		$PrCy->allData(); 
+		
+		// устанавливается последним сайтом который парсится
 		$PrCy->setObjCollector($collector);
 		$PrCy->setSite($site);
 		
