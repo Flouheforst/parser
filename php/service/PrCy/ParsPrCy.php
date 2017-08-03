@@ -49,6 +49,11 @@
 			$vkontakteSocial = $document->find("#vkontakteSocial .content-test")->text();
 			$googlePlusSocial = $document->find("#googlePlusSocial .content-test")->text();
 			$twitterSocial = $document->find("#twitterSocial .content-test")->text();
+			$wwwRedirect = $document->find("#wwwRedirect .content-test")->text();
+			$mainPageTitle = $document->find("#mainPageTitle .content-test")->text();
+			$mainPageDescription = $document->find("#mainPageDescription .content-test")->text();
+
+
 
 			$dataPrCy = array(
 					"ageDomain" => $ageDomain,
@@ -78,6 +83,9 @@
 					"vkontakteSocial" => $vkontakteSocial,
 					"googlePlusSocial" => $googlePlusSocial,
 					"twitterSocial" => $twitterSocial,
+					"wwwRedirect" => $wwwRedirect,
+					"mainPageTitle" => $mainPageTitle,
+					"mainPageDescription" => $mainPageDescription,
 					"titleHtml" => $titleHtml
 				);	
 

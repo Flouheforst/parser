@@ -12,7 +12,6 @@
 
 
 		public function assemble($site, $dataSite, $dataWork){
-			//$this->p($dataSite);
 	 		$pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, '', false, false, false);
 			/* ----------------------------------1 стр------------------------------------- */
 			$pdf->AddPage(array(675, 1140),array(675, 1140));
@@ -199,6 +198,23 @@
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["serverLocation"] . '</p>', 450, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["charset_Site"] . ' </p>', 450, 185);
+
+		
+			$pdf->addImagesOnPage( array($dataSite[2]["serverLocationIcon"], $dataSite[2]["charset_SiteIcon"]), array(
+				"1" => array(
+						"w" => $dataSite[2]["serverLocationIconW"],
+						"h" => $dataSite[2]["serverLocationIconH"],
+						"top" => 163,
+						"left" => 90
+					),
+				"2" => array(
+						"w" => $dataSite[2]["charset_SiteIconW"],
+						"h" => $dataSite[2]["charset_SiteIconH"],
+						"top" => 188,
+						"left" => 90
+					)
+			));
+	
 
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">4/16</p>', 632, 350);
@@ -448,6 +464,7 @@
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["robots"] . '</p>', 320, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["siteMap"] . '</p>', 320, 185);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["wwwRedirect"] . '</p>', 320, 210);
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["microdata"] . '</p>', 320, 235);
 
@@ -476,6 +493,8 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Длина текста на странице</p>', 100, 260);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Плотность ключевых слов</p>', 100, 285);
 
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageTitle"] . '</p>', 450, 160);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageDescription"] . '</p>', 450, 185);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageText"] . '</p>', 450, 235);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageWords"] . '</p>', 450, 260);
 

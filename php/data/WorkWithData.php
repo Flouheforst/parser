@@ -81,6 +81,7 @@
 			}
 		}
 
+		// переписать rtrim
 		public function prCyAllData($data = array()){
 
 			if (!empty($data)) {
@@ -89,22 +90,34 @@
 				}
 
 				$data["intEndDoman"] = intval(mb_substr($data["endDomain"], mb_strpos($data["endDomain"], ' ')));
-
+				$data["intAgeDomain"] = intval($data["ageDomain"]);
 
 				$data["yandexIndex"] = trim($data["yandexIndex"]);
-				$data["intAgeDomain"] = intval($data["ageDomain"]);
 				$data["titleHtml"] = $this->htmlTitlePrCy($data["titleHtml"]);
+
 				$data["endDomain"] = rtrim($data["endDomain"], '.');
 				$data["charset_Site"] = rtrim($data["charset_Site"], '.');
 				$data["favicon"] = rtrim($data["favicon"], '.');
-
+				$data["wwwRedirect"] = rtrim($data["wwwRedirect"], '.');
+				$data["robots"] = rtrim($data["robots"], '.');
+				$data["siteMap"] = rtrim($data["siteMap"], '.');
 				$data["codeResponse"] = rtrim($data["codeResponse"], '.');
+				$data["mainPageWords"] = rtrim($data["mainPageWords"], '.');
+				$data["mainPageDescription"] = rtrim($data["mainPageDescription"], '.');
 				$data["href_404"] = rtrim($data["href_404"], '.');
-
-
+			
+				$data["facebookSocial"] = rtrim($data["facebookSocial"], '.');
+				$data["vkontakteSocial"] = rtrim($data["vkontakteSocial"], '.');
+				$data["googlePlusSocial"] = rtrim($data["googlePlusSocial"], '.');
+				$data["microdata"] = rtrim($data["microdata"], '.');
+				$data["twitterSocial"] = rtrim($data["twitterSocial"], '.');
+				$data["pageSpeed"] = rtrim($data["pageSpeed"], '.');
 
 				$data["codeResponse"] = $this->prCyError_404($data["codeResponse"]);
 				$data["href_404"] = $this->href_404($data["href_404"]);
+
+				$data = $this->serverLocation($data);
+				$data = $this->charset_Site($data);
 
 				$data = $this->headerPrCy($data);
 
@@ -121,7 +134,38 @@
 			
 		}
 
-	
+		protected function serverLocation($data){
+			if (stristr($data["serverLocation"], "Россия")) {
+				$data["serverLocationIcon"] = "assets/img/ok.png";
+
+				$data["serverLocationIconW"] = 8;
+				$data["serverLocationIconH"] = 8;
+			} else {
+				$data["serverLocationIcon"] = "assets/img/HolyFuck.png";
+
+				$data["serverLocationIconW"] = 2;
+				$data["serverLocationIconH"] = 10;
+			}
+			
+			return $data;
+		}
+
+		protected function charset_Site($data){
+			if (stristr($data["charset_Site"], "Указана кодировка UTF-8")) {
+				$data["charset_SiteIcon"] = "assets/img/ok.png";
+
+				$data["charset_SiteIconW"] = 8;
+				$data["charset_SiteIconH"] = 8;
+			} else {
+				$data["charset_SiteIcon"] = "assets/img/HolyFuck.png";
+
+				$data["charset_SiteIconW"] = 2;
+				$data["charset_SiteIconH"] = 10;
+			}
+			
+			return $data;			
+		}
+
 		public function checkPrCy($data){
 			if ( ($data["bondingDomain"] === "Яндекс не считает домен склеенным.") && ($data["bannedSite"] === "Домен не найден в реестре.") && ($data["ags"] === "Фильтр не обнаружен.") ) {
 
