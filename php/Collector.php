@@ -12,6 +12,7 @@
 
 
 		public function assemble($site, $dataSite, $dataWork){
+			
 	 		$pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, '', false, false, false);
 			/* ----------------------------------1 стр------------------------------------- */
 			$pdf->AddPage(array(675, 1140),array(675, 1140));
@@ -272,7 +273,7 @@
 					)
 			));
 
-			$pdf->setText('<p style="color:#d19e73; font-size:64px;">ПОКАЗАТЕЛИ В YANDEX</p>', 80, 100);
+			$pdf->setText('<p style="color:#d19e73; font-size:64px;">ПОКАЗАТЕЛИ В ЯНДЕКС</p>', 80, 100);
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">ТИЦ</p>', 100, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Проиндексированно</p>', 100, 185);
@@ -325,13 +326,12 @@
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Favicon</p>', 100, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Горизонтальная прокрутка</p>', 100, 185);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Наличие flash анимаций</p>', 100, 210);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Размеры шрифтов</p>', 100, 235);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Размеры шрифтов</p>', 100, 210);
 
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["favicon"] . '</p>', 320, 160);
 		
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["sizeFont"] . ' страниц</p>', 323, 235);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["sizeFont"] . ' страниц</p>', 323, 210);
 
 
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
@@ -436,8 +436,8 @@
 
 			$pdf->setText('<p style="color:#d19e73; font-size:64px;">ОПТИМИЗАЦИЯ ПО GOOGLE PAGE SPEED INSIGHTS</p>', 80, 100);
 
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Desktop</p>', 100, 160);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Mobile</p>', 100, 185);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Для компьютеров</p>', 100, 160);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Для мобильных устройств</p>', 100, 185);
 
 
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
@@ -491,7 +491,6 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Оптимизация заголовков на странице</p>', 100, 210);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Количество слов на странице</p>', 100, 235);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Длина текста на странице</p>', 100, 260);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Плотность ключевых слов</p>', 100, 285);
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageTitle"] . '</p>', 450, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageDescription"] . '</p>', 450, 185);

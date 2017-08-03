@@ -27,6 +27,8 @@
 				$site = str_replace("https://", "", $site);  
 			} elseif (stristr($site, "http://") ===  $site) {
 				$site = str_replace("http://", "", $site);
+			} elseif (stristr($site, "www.") ===  $site) {
+				$site = str_replace("www.", "", $site);
 			}
 
 			return $site;
