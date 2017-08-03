@@ -26,14 +26,15 @@
         </div>
     </div>
 </section>
-            
+<!--          
 <footer id="footer">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12 ">
                 <p>Kompot © - 2017</p>
             </div>
         </div>
     </div>
 </footer>
+-->
 <?php App::renderTemplate("footer"); ?>

@@ -3,4 +3,8 @@
 /php/CookieFile
 /php/libs
 /assets/pdf
+<<<<<<< HEAD
 node_modules
+=======
+node_modules
+>>>>>>> optimization

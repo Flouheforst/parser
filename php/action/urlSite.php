@@ -17,12 +17,16 @@
 		if ( (stristr($site, "https://") === FALSE) && (stristr($site, "http://") === FALSE) ) {
 			$site = "http://" . $site;
 		}
+
 		$data = new WorkWithData();
 		$collector = new Collector();
 		
 		$megaInd = FactoryService::createMegaIndex($site, EMAILM, PASSWORDM, $data);
-		
+		$validator = FactoryService::createValidator_w3($site, $data);
 		$PrCy = FactoryService::createPrCy($site, $data);
+		
+		$validator->parseError();
+
 		$PrCy->allData(); 
 		
 		// устанавливается последним сайтом который парсится
@@ -31,4 +35,7 @@
 		
 		$PrCy->build();
 		$collector->assemble($data->cutUrl($site), $data->getAllData(), $data);
-	}	
+
+		$img = $data->getData(3);
+		$data->delImages($img);
+	}

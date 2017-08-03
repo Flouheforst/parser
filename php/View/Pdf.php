@@ -50,7 +50,6 @@
 			if ($countUrl === $countSize) {
 				$data = new WorkWithData();
 				$urlSize = $data->megrgeArra($urlImg, $sizeImg);
-				
 				$counterUrl = 1;
 				$counterSize = 2;
 				if (is_array($urlSize)) {
@@ -94,9 +93,6 @@
 
 		// добавление картинки
 		public function addImageNewPage($url, $left, $wigthImg, $heightImg, $top, $headerBool= false, $footerBool= false) {
-
-
-
 			$bMargin = $this->getBreakMargin();
         	$auto_page_break = $this->AutoPageBreak;
        		$this->SetAutoPageBreak(false, 0);
@@ -151,9 +147,8 @@
 
 		// вывод текста
 		public function setText($text, $left = 0, $top = 0){
-$html = <<<EOD
-$text
-EOD;
+$html = $text;
+
 			$this->writeHTMLCell( 0, 0, $left, $top, $html, 0, 1, 0, true, false, true);
 		}
 		public function safePDf($site){

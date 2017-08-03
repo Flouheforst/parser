@@ -1,8 +1,6 @@
 <?php 
 	
 	class ParsPrCy extends Parse{
-
-		protected $dataPrCt;
 		protected $site;
 		protected $data;
 
@@ -18,7 +16,6 @@
 			$prCy = file_get_contents('https://a.pr-cy.ru/'. $this->site .'/');
 
 			$document = phpQuery::newDocument($prCy);
-
 			/*
 			$cms = $document->find("#ipCountry .content-test")->text();
 			*/
@@ -38,8 +35,20 @@
 			$siteMap = $document->find("#sitemap .content-test")->text();
 			$ssl = $document->find("#ssl .content-test")->text();
 			$titleHtml = $document->find("#mainPageHeaders .content-test")->text();
-
-
+			$yandexIndex = $document->find("#yandexIndex .content-test")->text();
+			$googleIndex = $document->find("#googleIndex .content-test")->text();
+			$yandexCatalog = $document->find("#yandexCatalog .content-test")->text();
+			$codeResponse = $document->find("#page404StatusCode .content-test")->text();
+			$href_404 = $document->find("#page404BackLink .content-test")->text();
+			$pageSpeed = $document->find("#pageSpeedServerResponseTime .content-test")->text();
+			$loadTime = $document->find("#loadTime .content-test")->text();
+			$microdata = $document->find("#microdataSchemaOrg .content-test")->text();
+			$mainPageText = $document->find("#mainPageTextLength .content-test")->text();
+			$mainPageWords = $document->find("#mainPageWordsCount .content-test")->text();
+			$facebookSocial = $document->find("#facebookSocial .content-test")->text();
+			$vkontakteSocial = $document->find("#vkontakteSocial .content-test")->text();
+			$googlePlusSocial = $document->find("#googlePlusSocial .content-test")->text();
+			$twitterSocial = $document->find("#twitterSocial .content-test")->text();
 
 			$dataPrCy = array(
 					"ageDomain" => $ageDomain,
@@ -54,13 +63,27 @@
 					"sizeFont" => $sizeFont,
 					"robots" => $robots,
 					"siteMap" => $siteMap,
+					"yandexIndex" => $yandexIndex,
+					"googleIndex" => $googleIndex,
 					"ssl" => $ssl,
+					"yandexCatalog" => $yandexCatalog,
+					"codeResponse" => $codeResponse,
+					"href_404" => $href_404,
+					"pageSpeed" => $pageSpeed,
+					"loadTime" => $loadTime,
+					"microdata" => $microdata,
+					"mainPageText" => $mainPageText,
+					"mainPageWords" => $mainPageWords,
+					"facebookSocial" => $facebookSocial,
+					"vkontakteSocial" => $vkontakteSocial,
+					"googlePlusSocial" => $googlePlusSocial,
+					"twitterSocial" => $twitterSocial,
 					"titleHtml" => $titleHtml
 				);	
 
 			$this->data->filterPrCyTable($tablePrCy);
 			$this->data->prCyAllData($dataPrCy);
 		}
-
+	
 
 	}

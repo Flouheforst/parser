@@ -3,6 +3,7 @@
 		private $allData = array();
 
 		public function megrgeArra($urlImg, $sizeImg){
+
 			$res = array();
 			$i = 1;
 			$j = 2;
@@ -11,13 +12,13 @@
 				$res[$i] = $value;
 				$i += 2;
 			}
+
 			foreach ($sizeImg as $keyArr => $valueArr) {
 				$res[$j] = $valueArr;
 				$j+= 2;
 				ksort($res);
 			}
 
-		
 			return $res;
 		}
 
@@ -31,7 +32,6 @@
 			return $site;
 		}
 
-		// todo
 		public function filterTableMegaindex($table){
 			$i = 0;
 			$query = array();
@@ -43,26 +43,22 @@
 				foreach ($pq->find('tr') as $val) {
 					$tr = pq($val);
 					$queryCycl = $tr->find("td")->contents()->eq(2)->text();
-
 					// 5 8 10
 					$yandexCycl_5 = $tr->find("td")->contents()->eq(5)->find("span")->text();
-
 					//(11 13)
 					$google_11 = $tr->find("td")->contents()->eq(11)->find("span")->text();
 					$google_13 = $tr->find("td")->contents()->eq(13)->find("span")->text();
 
 					if (!empty($queryCycl) || !empty($yandexCycl_5) || !empty($yandexCycl_8) || !empty($yandexCycl_10) || !empty($google_13) || !empty($google_16) || !empty($google_18) ) {
+
 						$query[$i] = $queryCycl;
-
 						$yandex[$i] = trim($yandexCycl_5);
-
 						$google[$i] = trim($google_13);
 						$google[$i] .= trim($google_11);
 					}
 					$i++;
 				}
 			}
-
 
 			$res = array(
 						"query" => $query,
@@ -77,22 +73,45 @@
 			//$res = $this->clearGarbage($query, $google, $yadnex);
 		}
 
-			public function filterPrCyTable($table){
-				foreach($table as $key => $value){
-					$pq = pq($value);
-					$lang = $pq->find("td")->contents()->eq(22)->text();
-					$img = $pq->find(".text-img")->contents()->eq(22);
-
-				}
-			
+		public function filterPrCyTable($table){
+			foreach($table as $key => $value){
+				$pq = pq($value);
+				$lang = $pq->find("td")->contents()->eq(22)->text();
+				$img = $pq->find(".text-img")->contents()->eq(22);
 			}
-
+		}
 
 		public function prCyAllData($data = array()){
+
 			if (!empty($data)) {
 				foreach ($data as $key => $value) {
 					$data[$key] = str_replace(chr(9),"", trim( str_replace("\n", "", $data[$key] ) ) ) ;
 				}
+
+				$data["intEndDoman"] = intval(mb_substr($data["endDomain"], mb_strpos($data["endDomain"], ' ')));
+
+
+				$data["yandexIndex"] = trim($data["yandexIndex"]);
+				$data["intAgeDomain"] = intval($data["ageDomain"]);
+				$data["titleHtml"] = $this->htmlTitlePrCy($data["titleHtml"]);
+				$data["endDomain"] = rtrim($data["endDomain"], '.');
+				$data["charset_Site"] = rtrim($data["charset_Site"], '.');
+				$data["favicon"] = rtrim($data["favicon"], '.');
+
+				$data["codeResponse"] = rtrim($data["codeResponse"], '.');
+				$data["href_404"] = rtrim($data["href_404"], '.');
+
+
+
+				$data["codeResponse"] = $this->prCyError_404($data["codeResponse"]);
+				$data["href_404"] = $this->href_404($data["href_404"]);
+
+				$data = $this->headerPrCy($data);
+
+				$data["yandexCatalog"] = $this->prCyCatalogYandex($data["yandexCatalog"]);
+
+				$data["yandexCatalog"] = substr(substr($this->prCyCatalogYandex($data["yandexCatalog"]),0, 1200), 0, -1);
+
 				$data = $this->checkPrCy($data);
 
 				$this->allData[2] = $data;
@@ -102,6 +121,7 @@
 			
 		}
 
+	
 		public function checkPrCy($data){
 			if ( ($data["bondingDomain"] === "Яндекс не считает домен склеенным.") && ($data["bannedSite"] === "Домен не найден в реестре.") && ($data["ags"] === "Фильтр не обнаружен.") ) {
 
@@ -111,7 +131,7 @@
 
 				$data['sanctions'] = "Нет";
 
-				$data = $this->analizeIconDomen($data);
+				$data = $this->analizeIconDomenPrCy($data);
 			
 				return $data;
 			} else {
@@ -134,10 +154,6 @@
 			
 		}
 
-		public function getAllData(){
-			return $this->allData;
-		}
-
 		public function setImg($img){
 			$this->allData[3] = $img;
 		}
@@ -148,20 +164,165 @@
 			}
 		}
 
-		protected function analizeIconDomen($data = array() ){
+		// после такого надо выбрасывать с крышы
+		protected function analizeIconDomenPrCy($data = array() ){
 			if ( ($data["bondingDomain"] === "Нет") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Нет") ) {
+				$data["bondingDomainIcon"] = "assets/img/ok.png";
+				$data["bannedSiteIcon"] = "assets/img/ok.png";
+				$data["agsIcon"] = "assets/img/ok.png";
+			} elseif ( ($data["bondingDomain"] === "Да") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Нет") ) {
+				$data["bondingDomainIcon"] = "assets/img/nope.png";
+				$data["bannedSiteIcon"] = "assets/img/ok.png";
+				$data["agsIcon"] = "assets/img/ok.png";
+			} elseif ( ($data["bondingDomain"] === "Нет") && ($data["bannedSite"] === "Да") && ($data["ags"] === "Нет") ) {
+				$data["bondingDomainIcon"] = "assets/img/ok.png";
+				$data["bannedSiteIcon"] = "assets/img/nope.png";
+				$data["agsIcon"] = "assets/img/ok.png";
+			} elseif ( ($data["bondingDomain"] === "Нет") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Да") ) {
+				$data["bondingDomainIcon"] = "assets/img/ok.png";
+				$data["bannedSiteIcon"] = "assets/img/ok.png";
+				$data["agsIcon"] = "assets/img/nope.png";
+			}  elseif ( ($data["bondingDomain"] === "Да") && ($data["bannedSite"] === "Да") && ($data["ags"] === "Нет") ) {
+				$data["bondingDomainIcon"] = "assets/img/nope.png";
+				$data["bannedSiteIcon"] = "assets/img/nope.png";
+				$data["agsIcon"] = "assets/img/ok.png";
+			}	elseif ( ($data["bondingDomain"] === "Да") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Да") ) {
+				$data["bondingDomainIcon"] = "assets/img/nope.png";
+				$data["bannedSiteIcon"] = "assets/img/ok.png";
+				$data["agsIcon"] = "assets/img/nope.png";
+			}	elseif ( ($data["bondingDomain"] === "Да") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Да") ) {
+				$data["bondingDomainIcon"] = "assets/img/ok.png";
+				$data["bannedSiteIcon"] = "assets/img/ok.png";
+				$data["agsIcon"] = "assets/img/ok.png";
+			} 	elseif ( ($data["bondingDomain"] === "Да") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Да") ) {
 				$data["bondingDomainIcon"] = "assets/img/nope.png";
 				$data["bannedSiteIcon"] = "assets/img/nope.png";
 				$data["agsIcon"] = "assets/img/nope.png";
 			}
 
+			if ($data["intEndDoman"] > 1) {
+				$data["intEndDomanIcon"] = "assets/img/ok.png";
+				$data["sizeEndDomanW"] = 8;
+				$data["sizeEndDomanH"] = 8;
+			} else {
+				$data["intEndDomanIcon"] = "assets/img/nope.png";
+				$data["sizeEndDomanW"] = 8;
+				$data["sizeEndDomanH"] = 8;
+			} 
+
+			if ($data["ageDomain"] > 1 ) {
+				$data["intAgeDomainIcon"] = "assets/img/ok.png";
+				$data["sizeAgeDomainIconW"] = 8;
+				$data["sizeAgeDomainIconH"] = 8;
+			} else {
+				$data["intAgeDomainIcon"] = "assets/img/nope.png";
+				$data["sizeAgeDomainIconW"] = 8;
+				$data["sizeAgeDomainIconH"] = 8;
+			}
+
+			unset( $data["intEndDoman"] );
+			unset( $data["intAgeDomain"] );
 			return $data;
 		}
 
-		/*
-		private function checkRegExp($megaindexData){
+
+		protected function cutWord($string, $position){
+			return stristr($string, $position);
+		}
+
+		protected function htmlTitlePrCy($htmlTitle){
+			$str = "В структуре вашего сайта используются HTML заголовки H1-H6";
+			$htmlTitle = substr(preg_replace("/H[{0-9}]/", "", substr(str_replace(" ", "",str_replace ($str, "", $htmlTitle)), 1)), 1) ;
+			$htmlTitle = explode(":", $htmlTitle);
+
+			return $htmlTitle;
+		}
+
+		protected function prCyCatalogYandex($catalog){
+			$str = array("Показать всё", "Скрыть");
+
+			foreach ($str as $key) {
+				$catalog = str_replace($str, "", $catalog);
+			}
+
+			return $catalog;
+		}
+
+		protected function headerPrCy($header){
+			$h1 = intval($header["titleHtml"][0]);
+			if ($h1 !== 0) {
+				if ($h1 === 1) {
+					$header["titleHtmlIcon"] = "assets/img/ok.png";
+					$header["titleHtmlIconW"] = 8;
+					$header["titleHtmlIconH"] = 8;
+				} else {
+					$header["titleHtmlIcon"] = "assets/img/HolyFuck.png";
+					$header["titleHtmlIconW"] = 2;
+					$header["titleHtmlIconH"] = 10;
+				}
+			} else {
+				$header["titleHtmlIcon"] = "assets/img/HolyFuck.png";
+				$header["titleHtmlIconW"] = 2;
+				$header["titleHtmlIconH"] = 10;
+			}
+			return $header;
+			
+		}
+
+		
+
+		public function filterErrorValidatorHtml($error){
+			$errors = array();
+			$i = 0;
+			foreach ($error as $key => $value) {
+				$pq = pq($value);
+				foreach ($pq->find('li') as $val) {
+					$li = pq($val);
+					$errors[$i] = trim($li->find("p strong")->text());
+					$i++;
+				}	
+			}
+
+			$countErr = array_count_values($errors);
+			$this->allData[4]["html"] = $countErr = array(
+					"errors" => $countErr["Error"],
+					"warning" => $countErr["Warning"]
+				);
 		
 		}
+
+		public function filterErrorValidatorCss($error){
+			$error = trim(preg_replace('~[^0-9]+~','', $error));
+			$this->allData[4]["css"] = $error;
+		}
+
+		protected function prCyError_404($err){
+			return str_replace("Все отлично, ", "", $err);
+		}
+
+		protected function href_404($err){
+			if (stristr($err, "Ссылка со страницы 404 найдена")) {
+				return str_replace("Ссылка со страницы 404 найдена", "Да", $err);
+			} elseif (stristr($err, "Ссылка со страницы 404 не найдена")) {
+				return str_replace("Ссылка со страницы 404 не найдена", "Нет", $err);
+			}
+		}
+
+		public function getAllData(){
+			return $this->allData;
+		}
+
+		public function getData($key){
+			return $this->allData[$key];
+		}
+		/*
+
+			filterErrorValidatorHtml ->
+			$error = str_replace("Errors", "Ошибок", $error);
+			$error = str_replace("warning", "Предупреждений", $error);
+			$error = str_replace("(s)", "", $error);
+
+			$this->allData[4]["html"] = trim($error); <-
 		*/
 
 	}
