@@ -46,8 +46,8 @@
 
 				return $this->site;
 			} else {
-				FlashPush::add("site-error", "Сайт не найден");
-				App::redirect("parser/");
+				App::redirect("parser/php/resourses/page/notfound.view.php");
+				App::render("notfound");
 			}
 		}
 

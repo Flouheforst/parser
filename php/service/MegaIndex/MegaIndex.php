@@ -38,7 +38,7 @@
 		}
 
 		public function isAuth(){
-			echo "string";
+			
 			$curl = curl_init("https://ru.megaindex.com/auth");
 
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
