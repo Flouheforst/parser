@@ -26,7 +26,6 @@
 			$validHtml = phpQuery::newDocument($validator_w3Html);
 			$errorsHtml = pq($validHtml)->find('#results ol');
 
-			$this->data->filterErrorValidatorHtml($errorsHtml);
 
 
 
@@ -36,6 +35,7 @@
 			
 			$errorsCss = $validCss->find('#results_container #errors h3')->text();
 			
+			$this->data->filterErrorValidatorHtml($errorsHtml);
 			$this->data->filterErrorValidatorCss($errorsCss);
 
 			

@@ -1,5 +1,4 @@
 <?php 
-	
 	class ParsPrCy extends Parse{
 		protected $site;
 		protected $data;
@@ -52,8 +51,6 @@
 			$wwwRedirect = $document->find("#wwwRedirect .content-test")->text();
 			$mainPageTitle = $document->find("#mainPageTitle .content-test")->text();
 			$mainPageDescription = $document->find("#mainPageDescription .content-test")->text();
-
-
 
 			$dataPrCy = array(
 					"ageDomain" => $ageDomain,

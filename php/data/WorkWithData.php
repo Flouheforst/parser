@@ -107,7 +107,6 @@
 				$data["mainPageWords"] = rtrim($data["mainPageWords"], '.');
 				$data["mainPageDescription"] = rtrim($data["mainPageDescription"], '.');
 				$data["href_404"] = rtrim($data["href_404"], '.');
-			
 				$data["facebookSocial"] = rtrim($data["facebookSocial"], '.');
 				$data["vkontakteSocial"] = rtrim($data["vkontakteSocial"], '.');
 				$data["googlePlusSocial"] = rtrim($data["googlePlusSocial"], '.');
@@ -118,56 +117,103 @@
 				$data["codeResponse"] = $this->prCyError_404($data["codeResponse"]);
 				$data["href_404"] = $this->href_404($data["href_404"]);
 
-				$data = $this->serverLocation($data);
-				$data = $this->charset_Site($data);
-
-				$data = $this->headerPrCy($data);
-
+				$data["codeResponse"] = $this->prCyError_404($data["codeResponse"]);
+				
 				$data["yandexCatalog"] = $this->prCyCatalogYandex($data["yandexCatalog"]);
 
 				$data["yandexCatalog"] = substr(substr($this->prCyCatalogYandex($data["yandexCatalog"]),0, 1200), 0, -1);
+				$data["mainPageTitle"] = substr(substr($data["mainPageTitle"], 0, 60), 0, -2);
+
+				$data["mainPageDescription"] = substr(substr($data["mainPageDescription"], 0, 60), 0, -2);
+
+				$data["facebookSocial"] = $this->cutToSimbol($data["facebookSocial"], 0, 70, 0, -1);
+				$data["vkontakteSocial"] = $this->cutToSimbol($data["vkontakteSocial"], 0, 70, 0, -2);
+				$data["googlePlusSocial"] = $this->cutToSimbol($data["googlePlusSocial"], 0, 70, 0, -2);
+				$data["twitterSocial"] = $this->cutToSimbol($data["twitterSocial"], 0, 70, 0, -2);
 
 				$data = $this->checkPrCy($data);
 
 				$this->allData[2] = $data;
+
+				$this->is_in_str($data["pageSpeed"], "Ваш сервер ответил быстро", "pageSpeed");
+				$this->is_in_str($data["pageSpeed"], "Россия", "serverLocation");
+				$this->is_in_str($data["pageSpeed"], "Указана кодировка UTF-8", "charset_Site");
+
+				$this->headerPrCy($data["titleHtml"][0]);
+				$this->loadTime($data["loadTime"]);
+
+				$this->searchIndex($data["yandexIndex"], "yandexIndex");
+				$this->searchIndex($data["googleIndex"], "googleIndex");
+
+				$this->yandexCatalog($data["yandexCatalogx"]);
+				$this->tic($data["TIC"]);
+
 			} else {
 				return false;
 			}
 			
 		}
 
-		protected function serverLocation($data){
-			if (stristr($data["serverLocation"], "Россия")) {
-				$data["serverLocationIcon"] = "assets/img/ok.png";
-
-				$data["serverLocationIconW"] = 8;
-				$data["serverLocationIconH"] = 8;
+		protected function yandexCatalog($catalog){
+			if (stristr($catalog, "Нет")) {
+				$this->allData[2]["yandexCatalogIcon"] = "assets/img/nope.png";
+				$this->allData[2]["yandexCatalogIconW"] = 8;
+				$this->allData[2]["yandexCatalogIconH"] = 8;
 			} else {
-				$data["serverLocationIcon"] = "assets/img/HolyFuck.png";
-
-				$data["serverLocationIconW"] = 2;
-				$data["serverLocationIconH"] = 10;
+				$this->allData[2]["yandexCatalogIcon"] = "assets/img/ok.png";
+				$this->allData[2]["yandexCatalogIconW"] = 8;
+				$this->allData[2]["yandexCatalogIconH"] = 8;
 			}
 			
-			return $data;
 		}
 
-		protected function charset_Site($data){
-			if (stristr($data["charset_Site"], "Указана кодировка UTF-8")) {
-				$data["charset_SiteIcon"] = "assets/img/ok.png";
+		protected function searchIndex($index, $name){
+			if ( intval($index) !== 0 ) {
+				if ( ( $index <= 1 ) && ( $index >= 0 ) )  {
+					$this->allData[2][$name . "Icon"] = "assets/img/nope.png";
+					$this->allData[2][$name . "IconW"] = 8;
+					$this->allData[2][$name . "IconH"] = 8;
+				} elseif ( ( $index <= 30 ) && ( $index > 1 ) ) {
+					$this->allData[2][$name . "Icon"] = "assets/img/HolyFuck.png";
+					$this->allData[2][$name . "IconW"] = 2;
+					$this->allData[2][$name . "IconH"] = 10;
+				} elseif ( $index >= 30 ) {
+					$this->allData[2][$name . "Icon"] = "assets/img/ok.png";
+					$this->allData[2][$name . "IconW"] = 8;
+					$this->allData[2][$name . "IconH"] = 8;
+				}
+			}
+		}
 
-				$data["charset_SiteIconW"] = 8;
-				$data["charset_SiteIconH"] = 8;
+		protected function loadTime($loadTime){
+			if ( (float) str_replace(",", ".",substr($loadTime, 0, 3)) > 1 ) {
+				$this->allData[2]["loadTimeIcon"] = "assets/img/nope.png";
+				$this->allData[2]["loadTimeIconW"] = 8;
+				$this->allData[2]["loadTimeIconH"] = 8;
 			} else {
-				$data["charset_SiteIcon"] = "assets/img/HolyFuck.png";
+				$this->allData[2]["loadTimeIcon"] = "assets/img/ok.png";
+				$this->allData[2]["loadTimeIconW"] = 8;
+				$this->allData[2]["loadTimeIconH"] = 8;
+			}
+		}
 
-				$data["charset_SiteIconW"] = 2;
-				$data["charset_SiteIconH"] = 10;
+		protected function cutToSimbol($part, $from, $to, $fromT, $toT){
+			return substr(substr($part, $from, $to), $fromT, $toT);
+		}
+
+
+		protected function tic($tic){
+			if ($tic > 0 ) {
+				$this->allData[2]["ticIcon"] = "assets/img/ok.png";
+				$this->allData[2]["ticIconW"] = 8;
+				$this->allData[2]["ticIconH"] = 8;
+			} else {
+				$this->allData[2]["ticIcon"] = "assets/img/nope.png";
+				$this->allData[2]["ticIconW"] = 8;
+				$this->allData[2]["ticIconH"] = 8;
 			}
 			
-			return $data;			
-		}
-
+		}		
 		public function checkPrCy($data){
 			if ( ($data["bondingDomain"] === "Яндекс не считает домен склеенным.") && ($data["bannedSite"] === "Домен не найден в реестре.") && ($data["ags"] === "Фильтр не обнаружен.") ) {
 
@@ -210,42 +256,35 @@
 			}
 		}
 
-		// после такого надо выбрасывать с крышы
+		// переписать на switch
 		protected function analizeIconDomenPrCy($data = array() ){
-			if ( ($data["bondingDomain"] === "Нет") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Нет") ) {
+			if ($data["bondingDomain"] === "Нет") {
 				$data["bondingDomainIcon"] = "assets/img/ok.png";
-				$data["bannedSiteIcon"] = "assets/img/ok.png";
-				$data["agsIcon"] = "assets/img/ok.png";
-			} elseif ( ($data["bondingDomain"] === "Да") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Нет") ) {
+				$data["bondingDomainIconW"] = 8;
+				$data["bondingDomainIconH"] = 8;
+			} else {
 				$data["bondingDomainIcon"] = "assets/img/nope.png";
-				$data["bannedSiteIcon"] = "assets/img/ok.png";
-				$data["agsIcon"] = "assets/img/ok.png";
-			} elseif ( ($data["bondingDomain"] === "Нет") && ($data["bannedSite"] === "Да") && ($data["ags"] === "Нет") ) {
-				$data["bondingDomainIcon"] = "assets/img/ok.png";
-				$data["bannedSiteIcon"] = "assets/img/nope.png";
-				$data["agsIcon"] = "assets/img/ok.png";
-			} elseif ( ($data["bondingDomain"] === "Нет") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Да") ) {
-				$data["bondingDomainIcon"] = "assets/img/ok.png";
-				$data["bannedSiteIcon"] = "assets/img/ok.png";
-				$data["agsIcon"] = "assets/img/nope.png";
-			}  elseif ( ($data["bondingDomain"] === "Да") && ($data["bannedSite"] === "Да") && ($data["ags"] === "Нет") ) {
-				$data["bondingDomainIcon"] = "assets/img/nope.png";
-				$data["bannedSiteIcon"] = "assets/img/nope.png";
-				$data["agsIcon"] = "assets/img/ok.png";
-			}	elseif ( ($data["bondingDomain"] === "Да") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Да") ) {
-				$data["bondingDomainIcon"] = "assets/img/nope.png";
-				$data["bannedSiteIcon"] = "assets/img/ok.png";
-				$data["agsIcon"] = "assets/img/nope.png";
-			}	elseif ( ($data["bondingDomain"] === "Да") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Да") ) {
-				$data["bondingDomainIcon"] = "assets/img/ok.png";
-				$data["bannedSiteIcon"] = "assets/img/ok.png";
-				$data["agsIcon"] = "assets/img/ok.png";
-			} 	elseif ( ($data["bondingDomain"] === "Да") && ($data["bannedSite"] === "Нет") && ($data["ags"] === "Да") ) {
-				$data["bondingDomainIcon"] = "assets/img/nope.png";
-				$data["bannedSiteIcon"] = "assets/img/nope.png";
-				$data["agsIcon"] = "assets/img/nope.png";
+				$data["bondingDomainIconW"] = 8;
+				$data["bondingDomainIconH"] = 8;
 			}
-
+			if ($data["bannedSite"] === "Нет") {
+				$data["bannedSiteIcon"] = "assets/img/ok.png";
+				$data["bannedSiteIconW"] = 8;
+				$data["bannedSiteIconH"] = 8;
+			} else {
+				$data["bannedSiteIcon"] = "assets/img/nope.png";
+				$data["bannedSiteIconW"] = 8;
+				$data["bannedSiteIconH"] = 8;
+			}
+			if ($data["ags"] === "Нет") {
+				$data["agsIcon"] = "assets/img/ok.png";
+				$data["agsIconW"] = 8;
+				$data["agsIconH"] = 8;
+			} else {
+				$data["agsIcon"] = "assets/img/nope.png";
+				$data["agsIconW"] = 8;
+				$data["agsIconH"] = 8;
+			}
 			if ($data["intEndDoman"] > 1) {
 				$data["intEndDomanIcon"] = "assets/img/ok.png";
 				$data["sizeEndDomanW"] = 8;
@@ -255,7 +294,6 @@
 				$data["sizeEndDomanW"] = 8;
 				$data["sizeEndDomanH"] = 8;
 			} 
-
 			if ($data["ageDomain"] > 1 ) {
 				$data["intAgeDomainIcon"] = "assets/img/ok.png";
 				$data["sizeAgeDomainIconW"] = 8;
@@ -295,24 +333,22 @@
 		}
 
 		protected function headerPrCy($header){
-			$h1 = intval($header["titleHtml"][0]);
+			$h1 = intval($header);
 			if ($h1 !== 0) {
 				if ($h1 === 1) {
-					$header["titleHtmlIcon"] = "assets/img/ok.png";
-					$header["titleHtmlIconW"] = 8;
-					$header["titleHtmlIconH"] = 8;
+					$this->allData[2]["titleHtmlIcon"] = "assets/img/ok.png";
+					$this->allData[2]["titleHtmlIconW"] = 8;
+					$this->allData[2]["titleHtmlIconH"] = 8;
 				} else {
-					$header["titleHtmlIcon"] = "assets/img/HolyFuck.png";
-					$header["titleHtmlIconW"] = 2;
-					$header["titleHtmlIconH"] = 10;
+					$this->allData[2]["titleHtmlIcon"] = "assets/img/HolyFuck.png";
+					$this->allData[2]["titleHtmlIconW"] = 2;
+					$this->allData[2]["titleHtmlIconH"] = 10;
 				}
 			} else {
-				$header["titleHtmlIcon"] = "assets/img/HolyFuck.png";
-				$header["titleHtmlIconW"] = 2;
-				$header["titleHtmlIconH"] = 10;
+				$this->allData[2]["titleHtmlIcon"] = "assets/img/HolyFuck.png";
+				$this->allData[2]["titleHtmlIconW"] = 2;
+				$this->allData[2]["titleHtmlIconH"] = 10;
 			}
-			return $header;
-			
 		}
 
 		
@@ -330,16 +366,40 @@
 			}
 
 			$countErr = array_count_values($errors);
+
 			$this->allData[4]["html"] = $countErr = array(
 					"errors" => $countErr["Error"],
 					"warning" => $countErr["Warning"]
 				);
-		
+
+			if (intval($countErr["errors"]) > 1) {
+				$this->allData[4]["html"]["icon"] = "assets/img/ok.png";
+				$this->allData[4]["html"]["iconW"] = 8;
+				$this->allData[4]["html"]["iconH"] = 8;
+			} else {
+				
+				$this->allData[4]["html"]["icon"] = "assets/img/nope.png";
+				$this->allData[4]["html"]["iconW"] = 8;
+				$this->allData[4]["html"]["iconH"] = 8;
+			}
+			
 		}
 
 		public function filterErrorValidatorCss($error){
 			$error = trim(preg_replace('~[^0-9]+~','', $error));
-			$this->allData[4]["css"] = $error;
+			$this->allData[4]["css"] = array(	
+					"error" => $error
+				);
+
+			if ( intval($error) > 1 ) {
+				$this->allData[4]["css"]["icon"] = "assets/img/ok.png";
+				$this->allData[4]["css"]["iconW"] = 8;
+				$this->allData[4]["css"]["iconH"] = 8;
+			} else {
+				$this->allData[4]["css"]["icon"] = "assets/img/nope.png";
+				$this->allData[4]["css"]["iconW"] = 8;
+				$this->allData[4]["css"]["iconH"] = 8;
+			}
 		}
 
 		protected function prCyError_404($err){
@@ -360,6 +420,23 @@
 
 		public function getData($key){
 			return $this->allData[$key];
+		}
+
+
+		protected function is_in_str($str, $substr, $name){
+			$result = stristr($str, $substr);
+			if ($result === FALSE) {
+				$this->allData[2][$name . "Icon"] = "assets/img/ok.png";
+				
+				$this->allData[2][$name . "IconW"] = 8;
+				$this->allData[2][$name . "IconH"] = 8;
+			} else {
+				$this->allData[2][$name . "Icon"] = "assets/img/HolyFuck.png";
+			
+				$this->allData[2][$name . "IconW"] = 2;
+				$this->allData[2][$name . "IconH"] = 10;
+				
+			}
 		}
 		/*
 
