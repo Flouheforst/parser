@@ -114,30 +114,41 @@
 				$data["twitterSocial"] = rtrim($data["twitterSocial"], '.');
 				$data["pageSpeed"] = rtrim($data["pageSpeed"], '.');
 
-				$data["codeResponse"] = $this->prCyError_404($data["codeResponse"]);
-				$data["href_404"] = $this->href_404($data["href_404"]);
-
-				$data["codeResponse"] = $this->prCyError_404($data["codeResponse"]);
 				
 				$data["yandexCatalog"] = $this->prCyCatalogYandex($data["yandexCatalog"]);
 
 				$data["yandexCatalog"] = substr(substr($this->prCyCatalogYandex($data["yandexCatalog"]),0, 1200), 0, -1);
-				$data["mainPageTitle"] = substr(substr($data["mainPageTitle"], 0, 60), 0, -2);
-
-				$data["mainPageDescription"] = substr(substr($data["mainPageDescription"], 0, 60), 0, -2);
-
-				$data["facebookSocial"] = $this->cutToSimbol($data["facebookSocial"], 0, 70, 0, -1);
-				$data["vkontakteSocial"] = $this->cutToSimbol($data["vkontakteSocial"], 0, 70, 0, -2);
-				$data["googlePlusSocial"] = $this->cutToSimbol($data["googlePlusSocial"], 0, 70, 0, -2);
-				$data["twitterSocial"] = $this->cutToSimbol($data["twitterSocial"], 0, 70, 0, -2);
+	
+				$data["ssl"] = $this->cutUnderStr($data["ssl"]);
 
 				$data = $this->checkPrCy($data);
 
 				$this->allData[2] = $data;
 
+				$this->href_404($data["href_404"]);
+
 				$this->is_in_str($data["pageSpeed"], "Ваш сервер ответил быстро", "pageSpeed");
-				$this->is_in_str($data["pageSpeed"], "Россия", "serverLocation");
-				$this->is_in_str($data["pageSpeed"], "Указана кодировка UTF-8", "charset_Site");
+			
+				$this->is_in_str($data["favicon"], "Отлично, у сайта есть Favicon", "favicon");
+
+				$this->is_in_str($data["serverLocation"], "Россия", "serverLocation");
+				
+				$this->is_in_str($data["charset_Site"], "Указана кодировка UTF-8", "charset_Site");
+
+				$this->is_in_str($data["sizeFont"], "Размер шрифта и высота строк на вашем сайте позволяют
+удобно читать текст. страниц", "sizeFont");
+
+				$this->is_in_str($data["codeResponse"], "Все отлично, получен код 404", "codeResponse");
+				$this->is_in_str($data["microdata"], "Найдена", "microdata");
+
+				
+				$this->is_in_str($data["robots"], "Файл robots.txt найден. Сайт разрешен для индексации", "robots");
+				$this->is_in_str($data["siteMap"], "Как минимум одна карта сайта найдена и доступна", "siteMap");
+				$this->is_in_str($data["wwwRedirect"], "Перенаправление настроено", "wwwRedirect");
+				$this->is_in_str($data["ssl"], "Сайт доступен по HTTPS", "ssl");
+			
+
+				$data["codeResponse"] = $this->prCyError_404($data["codeResponse"]);
 
 				$this->headerPrCy($data["titleHtml"][0]);
 				$this->loadTime($data["loadTime"]);
@@ -145,8 +156,27 @@
 				$this->searchIndex($data["yandexIndex"], "yandexIndex");
 				$this->searchIndex($data["googleIndex"], "googleIndex");
 
-				$this->yandexCatalog($data["yandexCatalogx"]);
+				$this->yandexCatalog($data["yandexCatalog"]);
 				$this->tic($data["TIC"]);
+				
+				$this->cutToSimbol($data["mainPageTitle"], 0, 60, 0, -2, "mainPageTitle");
+				$this->checkOutMetateg($data["mainPageTitle"], 50, 80, 100, "mainPageTitle");
+
+				$this->cutToSimbol($data["mainPageDescription"], 0, 60, 0, -2, "mainPageDescription");
+				$this->checkOutMetateg($data["mainPageDescription"], 70, 160, 200, "mainPageDescription");
+
+				$this->toIntCheckThis($data["mainPageWords"], 100, 200, 250, "mainPageWords");
+				$this->toIntCheckThis($data["mainPageText"], 1000, 2000, 2500, "mainPageText");
+
+				$this->socialFactor($data["facebookSocialCheck"], "facebookSocial");
+				unset($datap["facebookSocialCheck"]);
+				$this->socialFactor($data["vkontakteSocialCheck"], "vkontakteSocial");
+				unset($datap["vkontakteSocialCheck"]);
+				$this->socialFactor($data["googlePlusSocialCheck"], "googlePlusSocial");
+				unset($datap["googlePlusSocialCheck"]);
+				$this->socialFactor($data["twitterSocialCheck"], "twitterSocial");
+				unset($datap["twitterSocialCheck"]);
+
 
 			} else {
 				return false;
@@ -154,6 +184,33 @@
 			
 		}
 
+		protected function toIntCheckThis($meta_teg, $from, $to, $max, $name){
+
+			$toInt = intval(preg_replace('~[^0-9]+~','', $meta_teg)  );
+
+			if ( ( $toInt > $from )  && ( $toInt < $to ) ) {
+				$this->allData[2][ $name . "Icon"] = "assets/img/ok.png";
+				$this->allData[2][ $name . "IconW"] = 8;
+				$this->allData[2][ $name . "IconH"] = 8;
+
+			} elseif ( ($toInt > $to) && ( $toInt < $max) ) {
+				$this->allData[2][ $name . "Icon"] = "assets/img/HolyFuck.png";
+				$this->allData[2][ $name . "IconW"] = 2;
+				$this->allData[2][ $name . "IconH"] = 10;
+
+			} elseif ( $toInt < $from) {
+				$this->allData[2][ $name . "Icon"] = "assets/img/HolyFuck.png";
+				$this->allData[2][ $name . "IconW"] = 2;
+				$this->allData[2][ $name . "IconH"] = 10;
+
+			} elseif ( $toInt > $max) {
+				$this->allData[2][ $name . "Icon"] = "assets/img/nope.png";
+				$this->allData[2][ $name . "IconW"] = 8;
+				$this->allData[2][ $name . "IconH"] = 8;
+			}
+			
+
+		}
 		protected function yandexCatalog($catalog){
 			if (stristr($catalog, "Нет")) {
 				$this->allData[2]["yandexCatalogIcon"] = "assets/img/nope.png";
@@ -197,8 +254,10 @@
 			}
 		}
 
-		protected function cutToSimbol($part, $from, $to, $fromT, $toT){
-			return substr(substr($part, $from, $to), $fromT, $toT);
+		protected function cutToSimbol($part, $from, $to, $fromT, $toT, $name){
+
+			$this->allData[2][$name] = substr(substr($part, $from, $to), $fromT, $toT);
+
 		}
 
 
@@ -314,6 +373,10 @@
 			return stristr($string, $position);
 		}
 
+		protected function cutUnderStr($str){
+			return mb_strcut($str, 0, 35);
+		}
+
 		protected function htmlTitlePrCy($htmlTitle){
 			$str = "В структуре вашего сайта используются HTML заголовки H1-H6";
 			$htmlTitle = substr(preg_replace("/H[{0-9}]/", "", substr(str_replace(" ", "",str_replace ($str, "", $htmlTitle)), 1)), 1) ;
@@ -373,12 +436,11 @@
 				);
 
 			if (intval($countErr["errors"]) > 1) {
-				$this->allData[4]["html"]["icon"] = "assets/img/ok.png";
+				$this->allData[4]["html"]["icon"] = "assets/img/nope.png";
 				$this->allData[4]["html"]["iconW"] = 8;
 				$this->allData[4]["html"]["iconH"] = 8;
 			} else {
-				
-				$this->allData[4]["html"]["icon"] = "assets/img/nope.png";
+				$this->allData[4]["html"]["icon"] = "assets/img/ok.png";
 				$this->allData[4]["html"]["iconW"] = 8;
 				$this->allData[4]["html"]["iconH"] = 8;
 			}
@@ -392,25 +454,36 @@
 				);
 
 			if ( intval($error) > 1 ) {
-				$this->allData[4]["css"]["icon"] = "assets/img/ok.png";
+				$this->allData[4]["css"]["icon"] = "assets/img/nope.png";
 				$this->allData[4]["css"]["iconW"] = 8;
 				$this->allData[4]["css"]["iconH"] = 8;
 			} else {
-				$this->allData[4]["css"]["icon"] = "assets/img/nope.png";
+				$this->allData[4]["css"]["icon"] = "assets/img/ok.png";
 				$this->allData[4]["css"]["iconW"] = 8;
 				$this->allData[4]["css"]["iconH"] = 8;
 			}
 		}
 
-		protected function prCyError_404($err){
+		protected function prCyError_404($err) {
 			return str_replace("Все отлично, ", "", $err);
 		}
 
-		protected function href_404($err){
+		protected function href_404($err) {
 			if (stristr($err, "Ссылка со страницы 404 найдена")) {
-				return str_replace("Ссылка со страницы 404 найдена", "Да", $err);
+				$this->allData[2]["hrefError"] = str_replace("Ссылка со страницы 404 найдена", "Да", $err);
+
+				$this->allData[2]["hrefErrorIcon"] = "assets/img/ok.png";
+				
+				$this->allData[2]["hrefErrorIconW"] = 8;
+				$this->allData[2]["hrefErrorIconH"] = 8;
+
 			} elseif (stristr($err, "Ссылка со страницы 404 не найдена")) {
-				return str_replace("Ссылка со страницы 404 не найдена", "Нет", $err);
+				$this->allData[2] = str_replace("Ссылка со страницы 404 не найдена", "Нет", $err);
+
+				$this->allData[2]["hrefErrorIcon"] = "assets/img/HolyFuck.png";
+			
+				$this->allData[2]["hrefErrorIconW"] = 2;
+				$this->allData[2]["hrefErrorIconH"] = 10;
 			}
 		}
 
@@ -426,26 +499,57 @@
 		protected function is_in_str($str, $substr, $name){
 			$result = stristr($str, $substr);
 			if ($result === FALSE) {
-				$this->allData[2][$name . "Icon"] = "assets/img/ok.png";
 				
-				$this->allData[2][$name . "IconW"] = 8;
-				$this->allData[2][$name . "IconH"] = 8;
-			} else {
 				$this->allData[2][$name . "Icon"] = "assets/img/HolyFuck.png";
 			
 				$this->allData[2][$name . "IconW"] = 2;
 				$this->allData[2][$name . "IconH"] = 10;
 				
+			} else {
+
+				$this->allData[2][$name . "Icon"] = "assets/img/ok.png";
+				
+				$this->allData[2][$name . "IconW"] = 8;
+				$this->allData[2][$name . "IconH"] = 8;
 			}
 		}
-		/*
+		
+		protected function checkOutMetateg($meta_teg, $from, $to, $max, $name){
+			$quantity = iconv_strlen($meta_teg);
 
-			filterErrorValidatorHtml ->
-			$error = str_replace("Errors", "Ошибок", $error);
-			$error = str_replace("warning", "Предупреждений", $error);
-			$error = str_replace("(s)", "", $error);
+			if ( ( $quantity > $from )  && ( $quantity < $to ) ) {
+				$this->allData[2][ $name . "Icon"] = "assets/img/ok.png";
+				$this->allData[2][ $name . "IconW"] = 8;
+				$this->allData[2][ $name . "IconH"] = 8;
 
-			$this->allData[4]["html"] = trim($error); <-
-		*/
+			} elseif ( ($quantity > $to) && ( $quantity < $max) ) {
+				$this->allData[2][ $name . "Icon"] = "assets/img/HolyFuck.png";
+				$this->allData[2][ $name . "IconW"] = 2;
+				$this->allData[2][ $name . "IconH"] = 10;
 
+			} elseif ( $quantity < $from) {
+				$this->allData[2][ $name . "Icon"] = "assets/img/HolyFuck.png";
+				$this->allData[2][ $name . "IconW"] = 2;
+				$this->allData[2][ $name . "IconH"] = 10;
+
+			} elseif ( $quantity > $max) {
+				$this->allData[2][ $name . "Icon"] = "assets/img/nope.png";
+				$this->allData[2][ $name . "IconW"] = 8;
+				$this->allData[2][ $name . "IconH"] = 8;
+			}
+		}
+
+		protected function socialFactor($social, $name){
+			if (empty($social)) {
+				$this->allData[2][ $name . "Icon"] = "assets/img/nope.png";
+				$this->allData[2][ $name . "IconW"] = 8;
+				$this->allData[2][ $name . "IconH"] = 8;
+			} else {
+				$this->allData[2][ $name . "Icon"] = "assets/img/ok.png";
+				$this->allData[2][ $name . "IconW"] = 8;
+				$this->allData[2][ $name . "IconH"] = 8;
+
+			}
+			
+		}
 	}

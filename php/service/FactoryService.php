@@ -16,6 +16,11 @@
 			$class_name = "ParseValidator";
 			require ('Validator/ParseValidator.php');
 			return new $class_name($site, $data);
-			
+		}
+
+		public static function createGoogleSpeedParse($site, $data){
+			$class_name = "GoogleSpeedParse";
+			require ('Google/GoogleSpeedParse.php');
+			return new $class_name($site, $data);
 		}
 	}

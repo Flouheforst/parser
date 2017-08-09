@@ -44,14 +44,23 @@
 			$microdata = $document->find("#microdataSchemaOrg .content-test")->text();
 			$mainPageText = $document->find("#mainPageTextLength .content-test")->text();
 			$mainPageWords = $document->find("#mainPageWordsCount .content-test")->text();
+
 			$facebookSocial = $document->find("#facebookSocial .content-test")->text();
 			$vkontakteSocial = $document->find("#vkontakteSocial .content-test")->text();
 			$googlePlusSocial = $document->find("#googlePlusSocial .content-test")->text();
 			$twitterSocial = $document->find("#twitterSocial .content-test")->text();
+
+			$facebookSocialCheck = $document->find("#facebookSocial .content-test .social-group")->text();
+			$vkontakteSocialCheck = $document->find("#vkontakteSocial .content-test .social-group")->text();
+			$googlePlusSocialCheck = $document->find("#googlePlusSocial .content-test .social-group")->text();
+			$twitterSocialCheck = $document->find("#twitterSocial .content-test .social-group")->text();
+
 			$wwwRedirect = $document->find("#wwwRedirect .content-test")->text();
 			$mainPageTitle = $document->find("#mainPageTitle .content-test")->text();
 			$mainPageDescription = $document->find("#mainPageDescription .content-test")->text();
 
+
+		
 			$dataPrCy = array(
 					"ageDomain" => $ageDomain,
 					"endDomain" => $endDomain,
@@ -83,7 +92,12 @@
 					"wwwRedirect" => $wwwRedirect,
 					"mainPageTitle" => $mainPageTitle,
 					"mainPageDescription" => $mainPageDescription,
-					"titleHtml" => $titleHtml
+					"titleHtml" => $titleHtml,
+					"facebookSocialCheck" => $facebookSocialCheck,
+					"vkontakteSocialCheck" => $vkontakteSocialCheck,
+					"googlePlusSocialCheck" => $googlePlusSocialCheck,
+					"twitterSocialCheck" => $twitterSocialCheck
+
 				);	
 
 			$this->data->filterPrCyTable($tablePrCy);

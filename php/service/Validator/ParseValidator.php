@@ -1,4 +1,5 @@
 <?php 
+
 	class ParseValidator extends Parse {
 		protected $site;
 		public $data;
@@ -28,12 +29,14 @@
 
 
 
+			$url = "https://jigsaw.w3.org/css-validator/validator?uri=" . $this->site . "&profile=css3&usermedium=all&warning=1&vextwarning=&lang=ru";
+			$curl = curl_init($url);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			$page = curl_exec($curl);
 
-			$validator_w3Css = file_get_contents('https://jigsaw.w3.org/css-validator/validator?uri=' . $this->site . '&profile=css3&usermedium=all&warning=1&vextwarning=&lang=ru');
-
-			$validCss = phpQuery::newDocument($validator_w3Css);
-			
-			$errorsCss = $validCss->find('#results_container #errors h3')->text();
+			//Обрабатываем переменную с помощью phpQuery:
+			$document = phpQuery::newDocument($page); 
+			$errorsCss = $document->find('#results_container #errors h3')->text();
 			
 			$this->data->filterErrorValidatorHtml($errorsHtml);
 			$this->data->filterErrorValidatorCss($errorsCss);

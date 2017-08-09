@@ -11,7 +11,7 @@
 		}
 
 
-		public function assemble($site, $dataSite, $dataWork){
+		public function assemble( $site, $dataSite, $dataWork ) {
 	 		$pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, '', false, false, false);
 
 			/* ----------------------------------1 стр------------------------------------- */
@@ -161,7 +161,7 @@
 						"left" => 80
 					)
 			));
-
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["ageDomain"] . '</p>', 450, 920);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["endDomain"] . '</p>', 450, 945);
@@ -169,9 +169,6 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["bannedSite"] . '</p>', 450, 995);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["sanctions"] . '</p>', 450, 1020);
 
-			$fontname = TCPDF_FONTS::addTTFfont(__DIR__ . '/../assets/font/MyriadPro/MyriadProRegular/MyriadProRegular.ttf', 'TrueTypeUnicode', '', 100);
-
-			//$pdf->genTable($dataSite[1]["data"], 6, 2, $fontname);
 
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">3/16</p>', 632, 1110);
@@ -193,6 +190,7 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Местоположения сервера</p>', 100, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Кодировка сайта</p>', 100, 185);
 
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["serverLocation"] . '</p>', 450, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["charset_Site"] . ' </p>', 450, 185);
 
@@ -297,7 +295,7 @@
 						"left" => 90
 					)
 			));
-
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["TIC"] . '</p>', 320, 160);
 		
@@ -340,7 +338,7 @@
 						"left" => 90
 					)
 			));
-
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["googleIndex"] . ' страниц</p>', 320, 185);
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
@@ -361,13 +359,29 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:64px;">ЮЗАБИЛИТИ</p>', 80, 100);
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Favicon</p>', 100, 160);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Горизонтальная прокрутка</p>', 100, 185);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Размеры шрифтов</p>', 100, 210);
+			//$pdf->setText('<p style="color:#d19e73; font-size:40px;">Горизонтальная прокрутка</p>', 100, 185);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Размеры шрифтов</p>', 100, 185	);
 
 
+			$pdf->addImagesOnPage( array($dataSite[2]["faviconIcon"], $dataSite[2]["sizeFontIcon"]), array(
+				"1" => array(
+					"w" => $dataSite[2]["faviconIconW"],
+					"h" => $dataSite[2]["faviconIconH"],
+					"top" => 163,
+					"left" => 90
+				),
+				"2" => array(
+					"w" => $dataSite[2]["sizeFontIconW"],
+					"h" => $dataSite[2]["sizeFontIconH"],
+					"top" => 188,
+					"left" => 90
+				)
+			));
+
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["favicon"] . '</p>', 320, 160);
 		
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["sizeFont"] . ' страниц</p>', 323, 210);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["sizeFont"] . ' страниц</p>', 323, 185);
 
 
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
@@ -408,10 +422,26 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Ссылка страницы 404</p>', 100, 185);
 
 
+			$pdf->addImagesOnPage( array($dataSite[2]["codeResponseIcon"], $dataSite[2]["hrefErrorIcon"]), array(
+				"1" => array(
+					"w" => $dataSite[2]["codeResponseIconW"],
+					"h" => $dataSite[2]["codeResponseIconH"],
+					"top" => 163,
+					"left" => 90
+				),
+				"2" => array(
+					"w" => $dataSite[2]["hrefErrorIconW"],
+					"h" => $dataSite[2]["hrefErrorIconH"],
+					"top" => 188,
+					"left" => 90
+				)
+			));
 
+
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["codeResponse"] . '</p>', 280, 160);
 		
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["href_404"] . '</p>', 280, 185);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["hrefError"] . '</p>', 280, 185);
 
 
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
@@ -450,7 +480,7 @@
 			));
 
 
-
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["pageSpeed"] . '</p>', 320, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["loadTime"] . ' страниц</p>', 320, 185);
 
@@ -493,7 +523,7 @@
 
 
 
-
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[4]["html"]["errors"] . ' Ошибок ' . $dataSite[4]["html"]["warning"] . ' Предупреждений' . '</p>', 320, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[4]["css"]["error"] . ' Ошибок</p>', 320, 185);
 
@@ -542,6 +572,47 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">SSL-сертификат</p>', 100, 260);
 
 
+
+			$pdf->addImagesOnPage( array($dataSite[2]["robotsIcon"], $dataSite[2]["siteMapIcon"], $dataSite[2]["wwwRedirectIcon"]), array(
+				"1" => array(
+						"w" => $dataSite[2]["robotsIconW"],
+						"h" => $dataSite[2]["robotsIconH"],
+						"top" => 163,
+						"left" => 90
+					),
+				"2" => array(
+						"w" => $dataSite[2]["siteMapIconW"],
+						"h" => $dataSite[2]["siteMapIconH"],
+						"top" => 188,
+						"left" => 90
+					),
+				"3" => array(
+						"w" => $dataSite[2]["wwwRedirectIconW"],
+						"h" => $dataSite[2]["wwwRedirectIconH"],
+						"top" => 213,
+						"left" => 90
+					)
+			));
+
+			$pdf->addImagesOnPage( array($dataSite[2]["sslIcon"], $dataSite[2]["microdataIcon"]), array(
+				"1" => array(
+						"w" => $dataSite[2]["sslIconW"],
+						"h" => $dataSite[2]["sslIconH"],
+						"top" => 263,
+						"left" => 90
+					),
+				"2" => array(
+						"w" => $dataSite[2]["microdataIconW"],
+						"h" => $dataSite[2]["microdataIconH"],
+						"top" => 238,
+						"left" => 90
+					)
+			));
+
+
+
+
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["robots"] . '</p>', 320, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["siteMap"] . '</p>', 320, 185);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["wwwRedirect"] . '</p>', 320, 210);
@@ -574,10 +645,46 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Количество слов на странице</p>', 100, 210);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Длина текста на странице</p>', 100, 235);
 
+
+			$pdf->addImagesOnPage( array($dataSite[2]["mainPageTitleIcon"], $dataSite[2]["mainPageDescriptionIcon"], $dataSite[2]["mainPageTextIcon"]), array(
+				"1" => array(
+						"w" => $dataSite[2]["mainPageTitleIconW"],
+						"h" => $dataSite[2]["mainPageTitleIconH"],
+						"top" => 163,
+						"left" => 90
+					),
+				"2" => array(
+						"w" => $dataSite[2]["mainPageDescriptionIconW"],
+						"h" => $dataSite[2]["mainPageDescriptionIconH"],
+						"top" => 188,
+						"left" => 90
+					),
+				"3" => array(
+						"w" => $dataSite[2]["mainPageTextIconW"],
+						"h" => $dataSite[2]["mainPageTextIconH"],
+						"top" => 213,
+						"left" => 90
+					)
+			));
+
+
+			$pdf->addImagesOnPage( array($dataSite[2]["mainPageWordsIcon"]), array(
+				"1" => array(
+						"w" => $dataSite[2]["mainPageWordsIconW"],
+						"h" => $dataSite[2]["mainPageWordsIconH"],
+						"top" => 238,
+						"left" => 90
+					)
+			));
+
+
+
+
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageTitle"] . '</p>', 450, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageDescription"] . '</p>', 450, 185);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageText"] . '</p>', 450, 210);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageWords"] . '</p>', 450, 235);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageWords"] . '</p>', 450, 210);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["mainPageText"] . '</p>', 450, 235);
 
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">14/16</p>', 626, 350);
@@ -610,6 +717,7 @@
 					)
 			));
 
+			$pdf->SetFont($LatoLight, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["titleHtml"][0] . '</p>', 318, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["titleHtml"][1] . '</p>', 318, 185);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["titleHtml"][2] . '</p>', 318, 210);
@@ -647,13 +755,45 @@
 			//$pdf->setText('<p style="color:#d19e73; font-size:40px;">Telegram</p>', 100, 335);
 
 
+			$pdf->addImagesOnPage(array($dataSite[2]["facebookSocialIcon"], $dataSite[2]["vkontakteSocialIcon"], $dataSite[2]["googlePlusSocialIcon"]), array(
+					"1" => array(
+							"w" => $dataSite[2]["facebookSocialIconW"],
+							"h" => $dataSite[2]["facebookSocialIconH"],
+							"top" => 163,
+							"left" => 90
+						),
+					"2" => array(
+						"w" => $dataSite[2]["vkontakteSocialIconW"],
+						"h" => $dataSite[2]["vkontakteSocialIconH"],
+						"top" => 188,
+						"left" => 90
+					),
+					"3" => array(
+							"w" => $dataSite[2]["googlePlusSocialIconW"],
+							"h" => $dataSite[2]["googlePlusSocialIconH"],
+							"top" => 213,
+							"left" => 90
+						)
+				));
+
+			$pdf->addImagesOnPage(array($dataSite[2]["twitterSocialIcon"]), array(
+					"1" => array(
+							"w" => $dataSite[2]["twitterSocialIconW"],
+							"h" => $dataSite[2]["twitterSocialIconH"],
+							"top" => 238,
+							"left" => 90
+						)
+				));
+
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">16/16</p>', 626, 350);
 
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["facebookSocial"] . '</p>', 318, 160);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["googlePlusSocial"] . '</p>', 318, 185);
+			$pdf->SetFont($LatoLight, '', 30, '', false);
+			
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["vkontakteSocial"] . '</p>', 318, 160);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["facebookSocial"] . '</p>', 318, 185);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["twitterSocial"] . '</p>', 318, 210);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["vkontakteSocial"] . '</p>', 318, 235);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["googlePlusSocial"] . '</p>', 318, 235);
 
 			/* ----------------------------------Конечная------------------------------------- */
 			$pdf->Byby("Kompot");
