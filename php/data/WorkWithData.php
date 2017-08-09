@@ -169,13 +169,13 @@
 				$this->toIntCheckThis($data["mainPageText"], 1000, 2000, 2500, "mainPageText");
 
 				$this->socialFactor($data["facebookSocialCheck"], "facebookSocial");
-				unset($datap["facebookSocialCheck"]);
+				unset($data["facebookSocialCheck"]);
 				$this->socialFactor($data["vkontakteSocialCheck"], "vkontakteSocial");
-				unset($datap["vkontakteSocialCheck"]);
+				unset($data["vkontakteSocialCheck"]);
 				$this->socialFactor($data["googlePlusSocialCheck"], "googlePlusSocial");
-				unset($datap["googlePlusSocialCheck"]);
+				unset($data["googlePlusSocialCheck"]);
 				$this->socialFactor($data["twitterSocialCheck"], "twitterSocial");
-				unset($datap["twitterSocialCheck"]);
+				unset($data["twitterSocialCheck"]);
 
 
 			} else {
