@@ -13,13 +13,13 @@
 				include("resourses/page/$template.view.php");
 			echo ob_get_clean();
 		}
+		
 		public static function renderTemplate($template, $data=[]){
 			ob_start();
 				extract($data);
 				include("resourses/template/$template.view.php");
 			echo ob_get_clean();
 		}
-
 
 		public static function redirect($action) {
 			header("Location: /$action");

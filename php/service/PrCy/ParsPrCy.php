@@ -59,8 +59,8 @@
 			$mainPageTitle = $document->find("#mainPageTitle .content-test")->text();
 			$mainPageDescription = $document->find("#mainPageDescription .content-test")->text();
 
+			$statisticsSystems = $document->find("#statisticsSystems .content-test");
 
-		
 			$dataPrCy = array(
 					"ageDomain" => $ageDomain,
 					"endDomain" => $endDomain,
@@ -102,7 +102,6 @@
 
 			$this->data->filterPrCyTable($tablePrCy);
 			$this->data->prCyAllData($dataPrCy);
+			$this->data->checkStatisticsSystems($statisticsSystems);
 		}
-	
-
 	}

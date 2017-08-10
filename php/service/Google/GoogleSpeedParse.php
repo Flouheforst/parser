@@ -11,9 +11,9 @@
         public function __construct($url, $data){
             $this->data = $data;
 
-            $this->urlDesktop = 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=' . $url . '/speed/pagespeed/insights/&strategy=desktop';
+            $this->urlDesktop = 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=' . $url . '&strategy=desktop';
 
-            $this->urlMobile = 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=' . $url . '/speed/pagespeed/insights/&strategy=mobile';
+            $this->urlMobile = 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=' . $url . '&strategy=mobile';
 
             $this->user_agent='Mozilla/5.0 (Windows NT 6.1; rv:8.0) Gecko/20100101 Firefox/8.0'; 
 
@@ -49,14 +49,11 @@
 
                 $res = json_decode($content, true);
 
-                $percentMobile = $res["formattedResults"]['ruleResults']['OptimizeImages']['urlBlocks'][0]['urls'][2]["result"]["args"][2]["value"];
-                print_r($percentMobile);
+                $percentMobile = $res["ruleGroups"]["SPEED"]["score"];
 
-
-                echo "<pre>";
-                print_r($percentMobile);
-                echo "</pre>";
-
+                if (!empty($percentMobile)) {
+                    $this->data->setPercentMobile($percentMobile);
+                }
             } else {
                 App::redirect("parser/php/resourses/page/notfound.view.php");
                 App::render("notfound");
@@ -75,17 +72,15 @@
             if ( $this->checkErr($data["http_code"]) ) {
                 $res = json_decode($content, true);
 
-                $percentDesktop = $res["formattedResults"]['ruleResults']['OptimizeImages']['urlBlocks'][0]['urls'][2]["result"]["args"][2]["value"];
+                $percentDesktop = $res["ruleGroups"]["SPEED"]["score"];
 
-                echo "<pre>";
-                print_r($percentDesktop);
-                echo "</pre>";
-                
+                if (!empty($percentDesktop)) {
+                    $this->data->setPercentDesktop($percentDesktop);
+                } 
             } else {
                 App::redirect("parser/php/resourses/page/notfound.view.php");
                 App::render("notfound");
             }
-            
         }
 
         protected function checkErr($content){
@@ -93,7 +88,6 @@
                 return false;
             } else {
                 return true;
-
             }
         }
     }

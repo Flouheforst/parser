@@ -12,6 +12,7 @@
 	define("PASSWORD_PR_CY", "13324661weE");
 
 	if( isset($_POST["site"]) ){ 
+
 		$site = $_POST["site"];
 
 		if ( (stristr($site, "https://") === FALSE) && (stristr($site, "http://") === FALSE) ) {
@@ -25,10 +26,10 @@
 		$validator = FactoryService::createValidator_w3($site, $data);
 		$PrCy = FactoryService::createPrCy($site, $data);
 
-		//$Google = FactoryService::createGoogleSpeedParse($site, $data);
+		$Google = FactoryService::createGoogleSpeedParse($site, $data);
 
-		//$Google->parseMobile();
-		//$Google->parseDesktop();
+		$Google->parseMobile();
+		$Google->parseDesktop();
 
 		$validator->parseError();
 
@@ -42,6 +43,6 @@
 		$collector->assemble($data->cutUrl($site), $data->getAllData(), $data);
 
 		$img = $data->getData(3);
-		$data->delImages($img);
 
+		$data->delImages($img);
 	}

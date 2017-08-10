@@ -230,10 +230,12 @@
 
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Яндекс.Метрика</p>', 100, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">GoogleAnalytics</p>', 100, 185);
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">LiveInternet</p>', 100, 210);
+			//$pdf->setText('<p style="color:#d19e73; font-size:40px;">LiveInternet</p>', 100, 210);
 
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["statisticsSystem"] . '</p>', 450, 160);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["statisticsSystem"] . ' </p>', 450, 185);
 
-			$pdf->addImagesOnPage( array("assets/img/yandex_metr.png", "assets/img/Google-Analytics-icon.png", "assets/img/18.png"), array(
+			$pdf->addImagesOnPage( array("assets/img/yandex_metr.png", "assets/img/Google-Analytics-icon.png" /*, "assets/img/18.png" */), array(
 				"1" => array(
 						"w" => 8,
 						"h" => 8,
@@ -245,12 +247,27 @@
 						"h" => 8,
 						"top" => 189,
 						"left" => 230
-					),
+					)/*,
 				"3" => array(
 						"w" => 8,
 						"h" => 8,
 						"top" => 214,
 						"left" => 230
+					)*/
+			));
+
+			$pdf->addImagesOnPage( array($dataSite[2]["statisticsSystemsIcon"], $dataSite[2]["statisticsSystemsIcon"]), array(
+				"1" => array(
+						"w" => $dataSite[2]["statisticsSystemsIconW"],
+						"h" => $dataSite[2]["statisticsSystemsIconH"],
+						"top" => 163,
+						"left" => 90
+					),
+				"2" => array(
+						"w" => $dataSite[2]["statisticsSystemsIconW"],
+						"h" => $dataSite[2]["statisticsSystemsIconH"],
+						"top" => 188,
+						"left" => 90
 					)
 			));
 
@@ -547,6 +564,24 @@
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Для компьютеров</p>', 100, 160);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">Для мобильных устройств</p>', 100, 185);
 
+			$pdf->addImagesOnPage( array($dataSite[5]["percentDesktopIcon"], $dataSite[5]["percentMobileIcon"]), array(
+				"1" => array(
+						"w" => $dataSite[5]["percentDesktopIconW"],
+						"h" => $dataSite[5]["percentDesktopIconH"],
+						"top" => 163,
+						"left" => 90
+					),
+				"2" => array(
+						"w" => $dataSite[5]["percentMobileIconW"],
+						"h" => $dataSite[5]["percentMobileIconH"],
+						"top" => 188,
+						"left" => 90
+					)
+
+			));
+
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[5]["percentDesktop"] . '</p>', 320, 160);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[5]["percentMobile"] . '</p>', 320, 185);
 
 			$pdf->SetFont($LatoMedium, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">12/16</p>', 626, 350);

@@ -46,12 +46,10 @@
 
 				return $this->site;
 			} else {
-				App::redirect("parser/php/resourses/page/notfound.view.php");
-				App::render("notfound");
+				
 			}
 		}
-
-
+		
 		/**
 		 * Проверка на авторизацию
 		 * @return boolean

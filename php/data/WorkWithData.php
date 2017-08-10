@@ -1,7 +1,7 @@
 <?php 
 	class WorkWithData {
 		private $allData = array();
-
+		// pdf
 		public function megrgeArra($urlImg, $sizeImg){
 
 			$res = array();
@@ -33,7 +33,7 @@
 
 			return $site;
 		}
-
+		// megaindex
 		public function filterTableMegaindex($table){
 			$i = 0;
 			$query = array();
@@ -72,9 +72,8 @@
 					"data" => $res
 				);
 
-			//$res = $this->clearGarbage($query, $google, $yadnex);
 		}
-
+		//pr cy
 		public function filterPrCyTable($table){
 			foreach($table as $key => $value){
 				$pq = pq($value);
@@ -83,7 +82,7 @@
 			}
 		}
 
-		// переписать rtrim
+		// переписать rtrim pr cy
 		public function prCyAllData($data = array()){
 
 			if (!empty($data)) {
@@ -119,7 +118,7 @@
 
 				$data["yandexCatalog"] = substr(substr($this->prCyCatalogYandex($data["yandexCatalog"]),0, 1200), 0, -1);
 	
-				$data["ssl"] = $this->cutUnderStr($data["ssl"]);
+				$data["ssl"] = $this->cutUnderStr($data["ssl"], 36);
 
 				$data = $this->checkPrCy($data);
 
@@ -183,7 +182,7 @@
 			}
 			
 		}
-
+		// pr cy
 		protected function toIntCheckThis($meta_teg, $from, $to, $max, $name){
 
 			$toInt = intval(preg_replace('~[^0-9]+~','', $meta_teg)  );
@@ -211,6 +210,7 @@
 			
 
 		}
+		// pr cy
 		protected function yandexCatalog($catalog){
 			if (stristr($catalog, "Нет")) {
 				$this->allData[2]["yandexCatalogIcon"] = "assets/img/nope.png";
@@ -223,7 +223,7 @@
 			}
 			
 		}
-
+		// pr cy
 		protected function searchIndex($index, $name){
 			if ( intval($index) !== 0 ) {
 				if ( ( $index <= 1 ) && ( $index >= 0 ) )  {
@@ -241,7 +241,7 @@
 				}
 			}
 		}
-
+		//loadTime
 		protected function loadTime($loadTime){
 			if ( (float) str_replace(",", ".",substr($loadTime, 0, 3)) > 1 ) {
 				$this->allData[2]["loadTimeIcon"] = "assets/img/nope.png";
@@ -253,14 +253,14 @@
 				$this->allData[2]["loadTimeIconH"] = 8;
 			}
 		}
-
+		// all 
 		protected function cutToSimbol($part, $from, $to, $fromT, $toT, $name){
 
 			$this->allData[2][$name] = substr(substr($part, $from, $to), $fromT, $toT);
 
 		}
 
-
+		// pr cy
 		protected function tic($tic){
 			if ($tic > 0 ) {
 				$this->allData[2]["ticIcon"] = "assets/img/ok.png";
@@ -272,7 +272,9 @@
 				$this->allData[2]["ticIconH"] = 8;
 			}
 			
-		}		
+		}	
+
+		// pr cy	
 		public function checkPrCy($data){
 			if ( ($data["bondingDomain"] === "Яндекс не считает домен склеенным.") && ($data["bannedSite"] === "Домен не найден в реестре.") && ($data["ags"] === "Фильтр не обнаружен.") ) {
 
@@ -289,33 +291,18 @@
 
 			}
 		}
-
-		private function clearGarbage($query, $google, $yandex){
-			if ( (count($query)) === (count($google)) || (count($query)) === (count($yandex)) || (count($google)) === (count($yandex)) )  {
-
-				return $megaindexData = array(
-						"query" => $query,
-						"google" => $google,
-						"yandex" => $yandex
-					);
-			} else {
-				// todo 	
-				echo "Неравное кол-во столбцов";
-			}
-			
-		}
-
+		// all
 		public function setImg($img){
 			$this->allData[3] = $img;
 		}
-
+		// all 
 		public function delImages($img = array()){
 			foreach ($img as $key => $value) {
 				unlink($_SERVER['DOCUMENT_ROOT'] . 'parser/' . $value);
 			}
 		}
 
-		// переписать на switch
+		// pr cy
 		protected function analizeIconDomenPrCy($data = array() ){
 			if ($data["bondingDomain"] === "Нет") {
 				$data["bondingDomainIcon"] = "assets/img/ok.png";
@@ -362,21 +349,19 @@
 				$data["sizeAgeDomainIconW"] = 8;
 				$data["sizeAgeDomainIconH"] = 8;
 			}
-
 			unset( $data["intEndDoman"] );
 			unset( $data["intAgeDomain"] );
 			return $data;
 		}
-
-
+		// all
 		protected function cutWord($string, $position){
 			return stristr($string, $position);
 		}
-
-		protected function cutUnderStr($str){
-			return mb_strcut($str, 0, 35);
+		// all
+		protected function cutUnderStr($str, $to){
+			return mb_strcut($str, 0, $to);
 		}
-
+		// pr cy
 		protected function htmlTitlePrCy($htmlTitle){
 			$str = "В структуре вашего сайта используются HTML заголовки H1-H6";
 			$htmlTitle = substr(preg_replace("/H[{0-9}]/", "", substr(str_replace(" ", "",str_replace ($str, "", $htmlTitle)), 1)), 1) ;
@@ -384,7 +369,7 @@
 
 			return $htmlTitle;
 		}
-
+		// pr cy
 		protected function prCyCatalogYandex($catalog){
 			$str = array("Показать всё", "Скрыть");
 
@@ -394,7 +379,7 @@
 
 			return $catalog;
 		}
-
+		// pr cy
 		protected function headerPrCy($header){
 			$h1 = intval($header);
 			if ($h1 !== 0) {
@@ -414,8 +399,7 @@
 			}
 		}
 
-		
-
+		// validator
 		public function filterErrorValidatorHtml($error){
 			$errors = array();
 			$i = 0;
@@ -447,6 +431,7 @@
 			
 		}
 
+		// validator
 		public function filterErrorValidatorCss($error){
 			$error = trim(preg_replace('~[^0-9]+~','', $error));
 			$this->allData[4]["css"] = array(	
@@ -464,10 +449,12 @@
 			}
 		}
 
+		// pr cy
 		protected function prCyError_404($err) {
 			return str_replace("Все отлично, ", "", $err);
 		}
 
+		// pr cy
 		protected function href_404($err) {
 			if (stristr($err, "Ссылка со страницы 404 найдена")) {
 				$this->allData[2]["hrefError"] = str_replace("Ссылка со страницы 404 найдена", "Да", $err);
@@ -486,16 +473,16 @@
 				$this->allData[2]["hrefErrorIconH"] = 10;
 			}
 		}
-
+		// all
 		public function getAllData(){
 			return $this->allData;
 		}
-
+		// all
 		public function getData($key){
 			return $this->allData[$key];
 		}
 
-
+		// all
 		protected function is_in_str($str, $substr, $name){
 			$result = stristr($str, $substr);
 			if ($result === FALSE) {
@@ -514,6 +501,7 @@
 			}
 		}
 		
+		// pr cy
 		protected function checkOutMetateg($meta_teg, $from, $to, $max, $name){
 			$quantity = iconv_strlen($meta_teg);
 
@@ -539,6 +527,7 @@
 			}
 		}
 
+		// pr cy
 		protected function socialFactor($social, $name){
 			if (empty($social)) {
 				$this->allData[2][ $name . "Icon"] = "assets/img/nope.png";
@@ -551,5 +540,48 @@
 
 			}
 			
+		}
+
+		// google speed
+		public function setPercentMobile($percentMobile){
+			$this->allData[5]["percentMobile"] = $percentMobile;
+			$this->analizePercentGoogle($percentMobile, "percentMobile");
+		}
+		// google speed
+		public function setPercentDesktop($percentDesktop){
+			$this->allData[5]["percentDesktop"] = $percentDesktop;
+			$this->analizePercentGoogle($percentDesktop, "percentDesktop");
+		}
+		// google speed
+		protected function analizePercentGoogle($percent, $name){
+			if ( $percent > 85 ) {
+				$this->allData[5][ $name . "Icon"] = "assets/img/ok.png";
+				$this->allData[5][ $name . "IconW"] = 8;
+				$this->allData[5][ $name . "IconH"] = 8;
+			} elseif ( ( $percent > 65 ) && ( $percent < 85 ) ) {
+				$this->allData[5][ $name . "Icon"] = "assets/img/HolyFuck.png";
+				$this->allData[5][ $name . "IconW"] = 2;
+				$this->allData[5][ $name . "IconH"] = 10;
+			} elseif ( $percent < 65 ) {
+				$this->allData[5][ $name . "Icon"] = "assets/img/nope.png";
+				$this->allData[5][ $name . "IconW"] = 8;
+				$this->allData[5][ $name . "IconH"] = 8;
+			}
+			
+		}
+		// pr cy
+		public function checkStatisticsSystems($statisticsSystems){
+			if ( !empty($statisticsSystems->text()) ) {
+
+				$this->allData[2]["statisticsSystem"] = "Да";
+				$this->allData[2]["statisticsSystemsIcon"] = "assets/img/ok.png";
+				$this->allData[2]["statisticsSystemsIconW"] = 8;
+				$this->allData[2]["statisticsSystemsIconH"] = 8;
+			} else {
+				$this->allData[2]["statisticsSystem"] = "Нет";
+				$this->allData[2]["statisticsSystemsIcon"] = "assets/img/nope.png";
+				$this->allData[2]["statisticsSystemsIconW"] = 8;
+				$this->allData[2]["statisticsSystemsIconH"] = 8;
+			}
 		}
 	}

@@ -1,11 +1,11 @@
 <?php require (__DIR__ . "/../../FlashPush.php"); ?>
 <?php App::renderTemplate("header"); ?>
-
+<div class="spinner"></div> 
 <section class="main">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form method="POST" action="php/action/urlSite.php">
+                <form action="php/action/urlSite.php" method="post">
                     <p>
                         <input type="text" name="site" placeholder="WebSite">
                     </p>
