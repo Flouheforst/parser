@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <form action="php/action/urlSite.php" method="post">
+                <form action= "php/action/urlSite.php" method="post">
                     <p>
                         <input type="text" name="site" placeholder="WebSite">
                     </p>

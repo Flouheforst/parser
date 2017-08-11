@@ -1,5 +1,5 @@
 <?php
-	// require('../Model/SiteContent.php');
+	require('../Model/SiteContent.php');
 	require "../libs/phpQuery.php";
 	require "../service/FactoryService.php";
 	require "../Collector.php";
@@ -26,7 +26,6 @@
 		$validator = FactoryService::createValidator_w3($site, $data);
 		$PrCy = FactoryService::createPrCy($site, $data);
 		$Google = FactoryService::createGoogleSpeedParse($site, $data);
-
 		$Google->parseMobile();
 		$Google->parseDesktop();
 
