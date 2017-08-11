@@ -12,8 +12,6 @@
 
 
 		public function assemble( $site, $dataSite, $dataWork ) {
-
-			die();
 	 		$pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, '', false, false, false);
 
 			/* ----------------------------------1 стр------------------------------------- */
