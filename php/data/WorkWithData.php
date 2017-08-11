@@ -1,4 +1,5 @@
 <?php 
+
 	class WorkWithData {
 		private $allData = array();
 		// pdf
@@ -109,8 +110,9 @@
 				$data["facebookSocial"] = rtrim($data["facebookSocial"], '.');
 				$data["vkontakteSocial"] = rtrim($data["vkontakteSocial"], '.');
 				$data["googlePlusSocial"] = rtrim($data["googlePlusSocial"], '.');
-				$data["microdata"] = rtrim($data["microdata"], '.');
 				$data["twitterSocial"] = rtrim($data["twitterSocial"], '.');
+
+				$data["microdata"] = rtrim($data["microdata"], '.');
 				$data["pageSpeed"] = rtrim($data["pageSpeed"], '.');
 
 				

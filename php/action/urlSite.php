@@ -25,7 +25,6 @@
 		$megaInd = FactoryService::createMegaIndex($site, EMAILM, PASSWORDM, $data);
 		$validator = FactoryService::createValidator_w3($site, $data);
 		$PrCy = FactoryService::createPrCy($site, $data);
-
 		$Google = FactoryService::createGoogleSpeedParse($site, $data);
 
 		$Google->parseMobile();
