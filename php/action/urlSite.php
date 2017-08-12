@@ -1,5 +1,4 @@
 <?php
-	require('../Model/SiteContent.php');
 	require "../libs/phpQuery.php";
 	require "../service/FactoryService.php";
 	require "../Collector.php";
