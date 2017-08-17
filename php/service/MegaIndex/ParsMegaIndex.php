@@ -1,5 +1,5 @@
 <?php 
-	require $_SERVER["DOCUMENT_ROOT"] . "parser/php/service/Parse.php";
+	require ROOT . "/php/service/Parse.php";
 
 	class ParsMegaIndex extends Parse {
 

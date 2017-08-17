@@ -1,9 +1,13 @@
 <?php
-	й	
-	require "../libs/phpQuery.php";
-	require "../service/FactoryService.php";
-	require "../Collector.php";
-	require "../data/WorkWithData.php";
+	error_reporting(E_ALL); 
+	ini_set('display_errors', 1);
+	define("ROOT", $_SERVER["DOCUMENT_ROOT"]);
+
+	require ROOT . "/vendor/phpQuery.php";
+
+	require ROOT . "/php/service/FactoryService.php";
+	require ROOT . "/php/Collector.php";
+	require ROOT . "/php/data/WorkWithData.php";
 
 	define("EMAILM", "shadool110790@mail.ru");
 	define("PASSWORDM", "13324661we");
@@ -38,11 +42,11 @@
 		$PrCy->setSite($site);
 		
 		$PrCy->build();
-		//$collector->assemble($data->cutUrl($site), $data->getAllData(), $data);
+		$collector->assemble($data->cutUrl($site), $data->getAllData(), $data);
 
 		$img = $data->getData(3);
 
-		$data->delImages($img);
+		//$data->delImages($img);
 
 		$end = microtime(true);
 		$runtime = $end - $start;

@@ -1,3 +1,3 @@
 <?php 
 
-	require "php/app.php";
+	require $_SERVER["DOCUMENT_ROOT"] . "/php/App.php";

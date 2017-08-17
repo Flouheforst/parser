@@ -300,7 +300,7 @@
 		// all 
 		public function delImages($img = array()){
 			foreach ($img as $key => $value) {
-				unlink($_SERVER['DOCUMENT_ROOT'] . 'parser/' . $value);
+				unlink($_SERVER['DOCUMENT_ROOT'] . "assets/img/" .  $value);
 			}
 		}
 

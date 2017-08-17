@@ -1,7 +1,7 @@
 <?php
-	require "../libs/tcpdf/tcpdf.php";
+	require ROOT . "/vendor/tcpdf/tcpdf.php";
 		
-	define("URLROOT", $_SERVER['DOCUMENT_ROOT'] . "parser/");
+	define("URLROOT", $_SERVER['DOCUMENT_ROOT']);
 	define("FORMATPDF", "A4");
 
 	class Pdf extends TCPDF {

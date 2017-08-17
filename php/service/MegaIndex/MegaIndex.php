@@ -1,6 +1,6 @@
 <?php 
-	require $_SERVER["DOCUMENT_ROOT"] . "parser/php/service/Auth.php";
-	require $_SERVER["DOCUMENT_ROOT"] . "parser/php/App.php";
+	require ROOT . "/php/service/Auth.php";
+	require ROOT . "/php/App.php";
 	
 
 	class MegaIndex extends Auth {
