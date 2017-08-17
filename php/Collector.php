@@ -398,7 +398,7 @@
 			$pdf->SetFont($LatoLight, '', 30, '', false);
 			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["favicon"] . '</p>', 320, 160);
 		
-			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["sizeFont"] . ' страниц</p>', 323, 185);
+			$pdf->setText('<p style="color:#d19e73; font-size:40px;">' . $dataSite[2]["sizeFont"] . '</p>', 323, 185);
 
 
 			$pdf->SetFont($LatoMedium, '', 30, '', false);

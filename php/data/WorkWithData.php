@@ -111,6 +111,7 @@
 				$data["vkontakteSocial"] = rtrim($data["vkontakteSocial"], '.');
 				$data["googlePlusSocial"] = rtrim($data["googlePlusSocial"], '.');
 				$data["twitterSocial"] = rtrim($data["twitterSocial"], '.');
+				$data["sizeFont"] = rtrim($data["sizeFont"], '.');
 
 				$data["microdata"] = rtrim($data["microdata"], '.');
 				$data["pageSpeed"] = rtrim($data["pageSpeed"], '.');
@@ -136,8 +137,7 @@
 				
 				$this->is_in_str($data["charset_Site"], "Указана кодировка UTF-8", "charset_Site");
 
-				$this->is_in_str($data["sizeFont"], "Размер шрифта и высота строк на вашем сайте позволяют
-удобно читать текст. страниц", "sizeFont");
+				$this->is_in_str($data["sizeFont"], "Размер шрифта и высота строк на вашем сайте позволяют удобно читать текст", "sizeFont");
 
 				$this->is_in_str($data["codeResponse"], "Все отлично, получен код 404", "codeResponse");
 				$this->is_in_str($data["microdata"], "Найдена", "microdata");

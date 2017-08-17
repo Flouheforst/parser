@@ -1,4 +1,5 @@
 <?php
+	require "../libs/MultiCurl.php";
 	require "../libs/phpQuery.php";
 	require "../service/FactoryService.php";
 	require "../Collector.php";
@@ -11,7 +12,7 @@
 	define("PASSWORD_PR_CY", "13324661weE");
 
 	if( isset($_POST["site"]) ){ 
-
+		$start = microtime(true);
 		$site = $_POST["site"];
 
 		if ( (stristr($site, "https://") === FALSE) && (stristr($site, "http://") === FALSE) ) {
@@ -37,9 +38,13 @@
 		$PrCy->setSite($site);
 		
 		$PrCy->build();
-		$collector->assemble($data->cutUrl($site), $data->getAllData(), $data);
+		//$collector->assemble($data->cutUrl($site), $data->getAllData(), $data);
 
 		$img = $data->getData(3);
 
 		$data->delImages($img);
+
+		$end = microtime(true);
+		$runtime = $end - $start;
+		echo "Время выполнения php скрипта в микросекундах: ". $runtime;
 	}
