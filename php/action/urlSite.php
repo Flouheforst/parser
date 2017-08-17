@@ -1,5 +1,5 @@
 <?php
-	
+	й	
 	require "../libs/phpQuery.php";
 	require "../service/FactoryService.php";
 	require "../Collector.php";
