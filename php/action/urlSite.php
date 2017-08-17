@@ -1,5 +1,5 @@
 <?php
-	require "../libs/MultiCurl.php";
+	
 	require "../libs/phpQuery.php";
 	require "../service/FactoryService.php";
 	require "../Collector.php";
