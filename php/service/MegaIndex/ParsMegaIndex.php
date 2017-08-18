@@ -5,9 +5,11 @@
 
 		protected $dataMegaind = array(); 
 		protected $data;
+		protected $multi_curl;
 
-		function __construct($data){
+		function __construct($data, $multi_curl){
 			$this->data = $data;
+			$this->multi_curl = $multi_curl;
 		}
 
 		public function parseNavbar(){

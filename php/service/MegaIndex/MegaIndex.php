@@ -6,11 +6,10 @@
 	class MegaIndex extends Auth {
 		protected $site;
 
-		public function __construct($site, $login, $password, $data){
+		public function __construct($site, $login, $password, $data, $multi_curl){
 			// как будет регистрация $site убрать из auth
-			parent::__construct($site, $login, $password, $data);
+			parent::__construct($site, $login, $password, $data, $multi_curl);
 
-			$this->site = $site; 
 		}
 
 		public function doAuth(){

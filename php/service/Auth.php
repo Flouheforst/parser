@@ -11,7 +11,7 @@
 		protected $password;
 		protected $data;
 
-		public function __construct($site, $login, $password, $data) {
+		public function __construct($site, $login, $password, $data, $multi_curl) {
 			if(file_exists(COOKIE_BASE_PATH . static::getCookieFileName()) ){
 				$this->cookieFilePath = COOKIE_BASE_PATH . static::getCookieFileName();
 			}
@@ -22,7 +22,7 @@
 
 			if ($this->checkSite()) {
 				
-				$parseMegaindex = new ParsMegaIndex($data);
+				$parseMegaindex = new ParsMegaIndex($data, $multi_curl);
 				$parseMegaindex->parseTable($this->site);
 				
 

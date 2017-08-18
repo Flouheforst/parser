@@ -6,9 +6,11 @@
         private $options = array();
         private $user_agent;
         protected $data;
+        protected $multi_curl;
 
-        public function __construct($url, $data){
+        public function __construct($url, $data, $multi_curl){
             $this->data = $data;
+            $this->multi_curl = $multi_curl;
 
             $this->urlDesktop = 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=' . $url . '&strategy=desktop';
 
