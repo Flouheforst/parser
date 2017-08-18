@@ -6,10 +6,10 @@
 			return new $class_name($site, $login, $password, $data);
 		}
 
-		public static function createPrCy($site, $data){
+		public static function createPrCy($site, $data, $multi_curl){
 			$class_name = "ParsPrCy";
 			require ('PrCy/ParsPrCy.php');
-			return new $class_name($site, $data);
+			return new $class_name($site, $data, $multi_curl);
 		}
 
 		public static function createValidator_w3($site, $data){
